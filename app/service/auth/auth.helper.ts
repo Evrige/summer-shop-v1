@@ -1,0 +1,22 @@
+import Cookies from 'js-cookie';
+import {EnumSaveData, IAuthResponse, ITokens} from "@/app/store/user/user.interface";
+export const saveTokenStorage = (data: ITokens) => {
+  Cookies.set(EnumSaveData.access, data.accessToken)
+  Cookies.set(EnumSaveData.refresh, data.refreshToken)
+}
+
+export const removeFromStorage = () => {
+  Cookies.remove(EnumSaveData.access)
+  Cookies.remove(EnumSaveData.refresh)
+  localStorage.removeItem(EnumSaveData.user)
+}
+
+export const saveToStorage = (data: IAuthResponse ) => {
+  saveTokenStorage(data);
+  localStorage.setItem(EnumSaveData.user, JSON.stringify(data.user))
+}
+
+export const getAccessToken = () => {
+  const accessToken = Cookies.get(EnumSaveData.access)
+  return accessToken || null;
+}
