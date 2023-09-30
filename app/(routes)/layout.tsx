@@ -1,8 +1,8 @@
-import './globals.css'
+import '../globals.css'
 import type { Metadata } from 'next'
 import {Providers} from "@/app/store/Providers";
 import Header from "@/app/components/Header";
-import {useSelector} from "react-redux";
+import React from "react";
 
 export const metadata: Metadata = {
   title: 'Summer Shop',

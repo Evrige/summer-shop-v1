@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import {EnumSaveData, IAuthResponse, ILoginData, IRegistrationData} from "@/app/store/user/user.interface";
+import {EnumSaveData, IAuthResponse, ILoginData, IRegistrationData} from "@/app/types/user.interface";
 import axios from "axios";
 import {getContentType} from "@/app/api/api.helper";
 import {saveToStorage} from "@/app/service/auth/auth.helper";
@@ -27,7 +27,7 @@ export const AuthService = {
                 method: 'POST',
                 data
             })
-            console.log(response.data)
+
             if (response.data.accessToken) saveToStorage(response.data)
 
             return response.data

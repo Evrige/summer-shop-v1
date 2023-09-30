@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
-import {EnumSaveData, IAuthResponse, ITokens} from "@/app/store/user/user.interface";
+import {EnumSaveData, IAuthResponse, ITokens} from "@/app/types/user.interface";
 export const saveTokenStorage = (data: ITokens) => {
   Cookies.set(EnumSaveData.access, data.accessToken)
-  Cookies.set(EnumSaveData.refresh, data.refreshToken)
+  Cookies.set(EnumSaveData.refresh, data.refreshToken, { expires: 30 });
 }
 
 export const removeFromStorage = () => {

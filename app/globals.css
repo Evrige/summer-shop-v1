@@ -23,3 +23,10 @@ a {
     text-decoration: none;
 }
 
+.custom-input::-webkit-inner-spin-button,
+.custom-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+

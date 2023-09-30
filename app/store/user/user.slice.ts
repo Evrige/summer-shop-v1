@@ -1,7 +1,8 @@
-import {EnumSaveData, IInitialState} from "@/app/store/user/user.interface";
+import {EnumSaveData, IInitialState} from "@/app/types/user.interface";
 import {createSlice} from "@reduxjs/toolkit";
 import {checkAuth, login, logout, registration} from "@/app/store/user/user.actions";
 import {getStorageLocal} from "@/app/utils/local-storage";
+import {errorCatch} from "@/app/api/api.helper";
 
 const initialState: IInitialState = {
 	user : getStorageLocal(EnumSaveData.user),
@@ -19,9 +20,7 @@ export const userSlice = createSlice({
 			state.isLoading = true
 		})
 		.addCase(registration.fulfilled, (state, action) => {
-			// @ts-ignore
-			state.message = (action.payload && action.payload.errors && action.payload.errors[0] && action.payload.errors[0].message) || "success"
-
+			state.message = errorCatch(action.payload) || "success"
 			state.isLoading = false
 		})
 		.addCase(registration.rejected, (state) => {
@@ -36,8 +35,7 @@ export const userSlice = createSlice({
 				state.isLoading = false
 				state.user = action.payload.user
 				state.isLogin = true
-				// @ts-ignore
-				state.message = (action.payload && action.payload.errors && action.payload.errors[0] && action.payload.errors[0].message) || "success"
+				state.message = errorCatch(action.payload) || "success"
 			})
 			.addCase(login.rejected, (state) => {
 				state.isLoading = false
@@ -56,5 +54,3 @@ export const userSlice = createSlice({
 			})
 	}
 })
-
-export const selectUser = (state:any ) => state

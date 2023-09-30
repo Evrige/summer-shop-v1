@@ -13,9 +13,10 @@ import * as yup from "yup"
 import {useActions} from "@/app/hooks/useActions";
 import {useRouter} from "next/navigation";
 import {useAuth} from "@/app/hooks/useAuth";
-import {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Cookies from "js-cookie";
-import {EnumSaveData} from "@/app/store/user/user.interface";
+import {EnumSaveData} from "@/app/types/user.interface";
+import ErrorMessage from "@/app/components/UI/ErrorMessage";
 const Page: NextPage = () => {
 	const schema = yup
 		.object({
@@ -31,14 +32,14 @@ const Page: NextPage = () => {
 				.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{5,}$/, "Пароль має складатись з літер та цифер"),
 		})
 		.required()
-	const { register, handleSubmit, formState: { errors, isValid }, reset} = useForm<ILoginForm>({
+	const { register, handleSubmit, formState: { errors, isValid }} = useForm<ILoginForm>({
 		mode: "onChange",
 		resolver: yupResolver(schema),
 	})
-
 	const auth = useActions()
 	const router = useRouter()
 	const userData = useAuth()
+
 	const onSubmit: SubmitHandler<ILoginForm> = data => {
 		auth.login({username: data.name, password: data.password})
 	}
@@ -67,7 +68,7 @@ const Page: NextPage = () => {
 									 message={errors?.password?.message}>
 					{Icon}
 				</AuthInput>
-				<p className="text-primary w-72 mt-1">{userData?.message}</p>
+				<ErrorMessage message={userData.message}/>
 				<button disabled={!isValid} className=" w-1/2 mb-4 text-[18px] mt-6 rounded-full bg-primary py-2 ">Увійти</button>
 				<p>Ще не має аккаунту? {<Link href={"/registration"} className="underline text-blue-500">Зареєструватись</Link>}</p>
 			</form>

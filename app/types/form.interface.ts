@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FC, SVGProps} from "react";
 
 export interface IRegisterForm {
 		name: string,
@@ -10,12 +10,4 @@ export interface IRegisterForm {
 export interface ILoginForm {
 	name: string,
 	password: string
-}
-
-export type TypeInputProps = {
-	properties: any,
-	labelText: string,
-	children?: React.ReactNode,
-	type: string,
-	message: string | undefined
 }
