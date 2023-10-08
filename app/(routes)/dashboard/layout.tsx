@@ -1,27 +1,22 @@
-import type { Metadata } from 'next'
-import {Providers} from "@/app/store/Providers";
-import React from "react";
 import MenuList from "@/app/components/MenuList";
 import {dashboardList} from "@/app/constants/dashboard.constants";
+import {Metadata} from "next";
+
 
 export const metadata: Metadata = {
 	title: 'Dashboard',
 	description: '',
 }
-
-export default function RootLayout({
-																		 children,
-																	 }: {
+export default function DashboardLayout({
+																					children, // will be a page or nested layout
+																				}: {
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
-		<body>
-		<Providers>
+		<section>
 			<MenuList list={dashboardList}/>
+
 			{children}
-		</Providers>
-		</body>
-		</html>
+		</section>
 	)
 }

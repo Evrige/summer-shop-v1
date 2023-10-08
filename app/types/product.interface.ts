@@ -1,8 +1,3 @@
-export type TypeFormData = {
-	file: File | null,
-	json: IProduct
-}
-
 export interface IProduct {
 	id: number,
 	name: string,
@@ -38,7 +33,7 @@ export interface ISize {
 	count?: number
 }
 
-export interface IBrand {
+export interface IBrandCategory {
 	id: number,
 	name: string,
 }
@@ -46,4 +41,20 @@ export interface IBrand {
 export interface IFindId {
 	id: number,
 	name: string
+}
+
+export interface ICombinedData {
+	sizes: ISize[];
+	brands: IBrandCategory[];
+	category: IBrandCategory[];
+	products: IProductResponse[];
+}
+
+export interface IInitialProducts {
+		products: IProductResponse[],
+		brands: IBrandCategory[],
+		category: IBrandCategory[],
+		sizes: ISize[],
+		productDetail: IProduct | null,
+		isLoading: boolean
 }

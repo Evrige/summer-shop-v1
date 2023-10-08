@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
-import {EnumGender, IFindId, IProduct, ISize} from "@/app/types/product.interface";
+import React, {useEffect, useState} from 'react';
+import {
+	IFindId,
+	ISize,
+} from "@/app/types/product.interface";
 import Select from "@/app/components/UI/Select";
 import Input from "@/app/components/UI/Input";
 import SizeList from "@/app/components/SizeList";
@@ -7,87 +10,45 @@ import SelectFile from "@/app/components/UI/SelectFile";
 import {RxCross1} from "react-icons/rx";
 import {genders} from "@/app/constants/product.constants";
 import {ProductService} from "@/app/service/product.service";
-import Cookies from "js-cookie";
-import {EnumSaveData} from "@/app/types/user.interface";
+import {useActions} from "@/app/hooks/useActions";
+import {useProducts} from "@/app/hooks/useProducts";
+import {EnumModalTitle, resetModalData} from "@/app/constants/dashboard.constants";
 interface IProps {
-	data:{
-		title?: string,
-		product?: IProduct
-	}
+	title: string
 	handleClose: () => void
 }
-
-console.log(Cookies.get(EnumSaveData.access))
-	const brands1 =  ProductService.getBrands()
-	const category1 = ProductService.getCategory()
-	const sizes1 = ProductService.getSizes()
-	const brands = [
-		{
-			id: 1,
-			name: "Nike"
-		},
-		{
-			id: 2,
-			name: "Puma"
-		},
-		{
-			id: 3,
-			name: "Adidas"
-		},
-	]
-	const category = [
-		{
-			id: 1,
-			name: "Шорти"
-		},
-		{
-			id: 2,
-			name: "Футболка"
-		},
-		{
-			id: 3,
-			name: "Кепка"
-		},
-	]
-	const sizes = [
-		{
-			id: 1,
-			name: "XS",
-		},
-		{
-			id: 2,
-			name: "S",
-		},
-		{
-			id: 3,
-			name: "M",
-		},
-		{
-			id: 4,
-			name: "L",
-		},
-	]
-const ModalsCreateEditProduct = ({data, handleClose}: IProps) => {
-	const {title, product} = data;
-	const findId = (name:string, data:IFindId[]) => data.find(item => item.name === name)
+const ModalsCreateEditProduct = ({title, handleClose}: IProps) => {
+	const actions = useActions()
+	const productsState = useProducts()
+	const findId = (name:string, data:IFindId[]) => data && data.find(item => item.name === name)
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
 	const [productData, setProductData] = useState({
-		id: product?.id,
-		name: product?.name || "",
-		photo: product?.photo || "/images/noImage.png",
-		description: product?.description || "",
-		price: product?.price || 0,
+		id: productsState.productDetail?.id,
+		name: productsState.productDetail?.name || " ",
+		photo: productsState.productDetail?.photo || "/images/noImage.png",
+		description: productsState.productDetail?.description || " ",
+		price: productsState.productDetail?.price || 0,
 		brand: {
-			id: product?.brand.id || -1,
-			name: product?.brand.name || ""
+			id: productsState.productDetail?.brand.id || -1,
+			name: productsState.productDetail?.brand.name || ""
 		},
 		category: {
-			id: product?.category.id || -1,
-			name: product?.category.name || ""
+			id: productsState.productDetail?.category.id || -1,
+			name: productsState.productDetail?.category.name || ""
 		},
-		gender: product?.gender || "MAN",
-		size: product?.size || []
+		gender: productsState.productDetail?.gender || "MAN",
+		size: productsState.productDetail?.size || []
 	})
+	useEffect(() => {
+		actions.getSizes()
+		actions.getBrands()
+		actions.getCategory()
+		if(productsState.productDetail !== null) { // @ts-ignore
+			setProductData(productsState.productDetail);
+		}
+		if (EnumModalTitle.Create === title) setProductData(resetModalData);
+	}, [productsState.productDetail]);
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const file = e.target.files[0];
@@ -111,7 +72,18 @@ const ModalsCreateEditProduct = ({data, handleClose}: IProps) => {
 			setProductData({...productData, size: newSizeCount})
 		}
 	}
-
+	const handleSend = async () =>{
+		const formData = new FormData()
+		formData.append("file", selectedFile as File || new File([], 'empty.txt', { type: 'text/plain' }))
+		const jsonData = {...productData}
+		// @ts-ignore
+		delete jsonData.photo;
+		console.log(jsonData)
+		formData.append("json", JSON.stringify(jsonData))
+		if (title === EnumModalTitle.Create) await ProductService.createProduct(formData)
+		else await ProductService.updateProduct({formData, id: productData.id})
+		handleClose()
+	}
 	return (
 		<div className="fixed inset-0 bg-bgColor bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
 				 onClick={()=> handleClose()}>
@@ -138,14 +110,14 @@ const ModalsCreateEditProduct = ({data, handleClose}: IProps) => {
 						<SelectFile handleFileChange={handleFileChange} image={productData.photo}/>
 						<div className="max-w-[550px] flex flex-wrap">
 							<Select className="mb-5 mr-6" isAddOther={true} title="Бренд"
-											options={brands.map(item => item.name)}
+											options={productsState.brands.map(item => item.name)}
 											selectOption={productData.brand.name}
-											setOptions={(newValue) => setProductData({ ...productData, brand: {id: findId(newValue, brands)?.id || -1, name: newValue}})}/>
+											setOptions={(newValue) => setProductData({ ...productData, brand: {id: findId(newValue, productsState.brands)?.id || -1, name: newValue}})}/>
 							<Select className="mb-5 mr-6" isAddOther={true}
 											title="Категорія"
-											options={category.map(item => item.name)}
+											options={productsState.category.map(item => item.name)}
 											selectOption={productData.category.name}
-											setOptions={(newValue) => setProductData({ ...productData, category: {id: findId(newValue, category)?.id || -1, name: newValue} })}/>
+											setOptions={(newValue) => setProductData({ ...productData, category: {id: findId(newValue, productsState.category)?.id || -1, name: newValue} })}/>
 							<Select className="mb-5 mr-6"
 											title="Стать"
 											options={genders}
@@ -153,14 +125,14 @@ const ModalsCreateEditProduct = ({data, handleClose}: IProps) => {
 											setOptions={(newValue) => setProductData({ ...productData, gender: newValue })}/>
 						</div>
 						<SizeList
-							sizes={sizes}
+							sizes={productsState.sizes}
 							sizesCount={productData.size}
 							changeSizeCount={changeSizeCount}
 						/>
 					</div>
 					<div className="flex justify-center my-1 mt-5">
 						<button className="w-1/3 text-[18px] rounded-xl bg-primary py-2"
-										onClick={()=>{}}>Створити</button>
+										onClick={handleSend}>Ok</button>
 					</div>
 					<RxCross1 className="absolute right-2 top-2 cursor-pointer" onClick={()=> handleClose()}/>
 				</div>

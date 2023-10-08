@@ -8,11 +8,13 @@ export const saveTokenStorage = (data: ITokens) => {
 export const removeFromStorage = () => {
   Cookies.remove(EnumSaveData.access)
   Cookies.remove(EnumSaveData.refresh)
+  Cookies.remove(EnumSaveData.user)
   localStorage.removeItem(EnumSaveData.user)
 }
 
 export const saveToStorage = (data: IAuthResponse ) => {
   saveTokenStorage(data);
+  Cookies.set(EnumSaveData.user, JSON.stringify(data.user))
   localStorage.setItem(EnumSaveData.user, JSON.stringify(data.user))
 }
 

@@ -7,7 +7,7 @@ interface IProps {
 	changeSizeCount: (size: ISize, newCount: number) => void
 }
 const SizeList = ({ sizes, sizesCount, changeSizeCount }: IProps) => {
-	const findSizeCount = (sizeName:string, data: ISize[]) => data.find(item => item.name === sizeName)
+	const findSizeCount = (sizeName:string, data: ISize[]) => data && data.find(item => item.name === sizeName)
 
 	return (
 		<div className="max-w-[550px]">

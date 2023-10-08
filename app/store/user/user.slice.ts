@@ -5,7 +5,7 @@ import {getStorageLocal} from "@/app/utils/local-storage";
 import {errorCatch} from "@/app/api/api.helper";
 
 const initialState: IInitialState = {
-	user : getStorageLocal(EnumSaveData.user),
+	user : null,
 	isLoading: false,
 	isLogin: false,
 	message: ""

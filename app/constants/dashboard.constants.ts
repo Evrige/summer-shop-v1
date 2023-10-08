@@ -14,7 +14,28 @@ export const dashboardList = [
 		link: "/dashboard/orders"
 	},
 ]
-
+export const tableProductHead = ["Id", "Назва", "Фото", "Бренд", "Ціна", "Дія"]
+export const enum EnumModalTitle {
+	Create = "Створити",
+	Edit = "Редагувати"
+}
+export const resetModalData = {
+	id: 0,
+	name: "",
+	photo: "/images/noImage.png",
+	description: "",
+	price: 0,
+	brand: {
+		id: -1,
+		name: ""
+	},
+	category: {
+		id: -1,
+		name: ""
+	},
+	gender: "MAN",
+	size: []
+}
 export const productLegend = [
 	{
 		title: "ID"
@@ -45,7 +66,7 @@ export const rowsDetails = {
 		},
 		category: {
 			id: 1,
-			name: "Шорти"
+			name: "Panama"
 		},
 		gender: EnumGender.man,
 		size: [

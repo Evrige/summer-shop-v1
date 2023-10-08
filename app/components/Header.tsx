@@ -11,6 +11,8 @@ import {useActions} from "@/app/hooks/useActions";
 import {useRouter} from "next/navigation";
 import Cookies from "js-cookie";
 import {EnumSaveData} from "@/app/types/user.interface";
+import {getStorageLocal} from "@/app/utils/local-storage";
+import {log} from "util";
 const Header:FC = () => {
 	const userData = useAuth()
 	const actions = useActions()
@@ -19,6 +21,7 @@ const Header:FC = () => {
 	useEffect(()=>{
 		if (Cookies.get(EnumSaveData.refresh)) actions.checkAuth()
 		else router.push("/login")
+		console.log(Cookies.get(EnumSaveData.access))
 	}, [actions, router, userData.isLogin])
 
 	return (
@@ -28,7 +31,7 @@ const Header:FC = () => {
 				<SearchInput />
 				<div className="flex">
 					<div className="flex items-center mr-5 justify-center">
-						{/*{userData?.user?.role === "ADMIN" && <Link href={"/dashboard"}>Адмін панель</Link>}*/}
+						{userData?.user?.role === "ADMIN" && <Link href={"/dashboard"}>Адмін панель</Link>}
 						{userData.isLogin && <FiLogOut onClick={()=> actions.logout()}/>}
 						<FaUser className="mr-1.5"/>
 						{!userData.isLogin ? <Link href={'/login'}>Авторизація</Link> : <span>Вітаю, {userData?.user?.username}</span>  }
