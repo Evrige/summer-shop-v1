@@ -9,7 +9,7 @@ interface IProps {
 const SizeItem = ({ size, changeSizeCount, count }: IProps) => {
 	return (
 		<div>
-			<button className=" w-[20px] text-[18px] rounded-bl rounded-tl bg-secondary py-1"
+			<button className=" w-[20px] text-[18px] rounded-l bg-secondary py-1"
 							onClick={() => changeSizeCount(size, count-1)}>-</button>
 			<input min="0"
 						 inputMode="numeric"
@@ -18,7 +18,7 @@ const SizeItem = ({ size, changeSizeCount, count }: IProps) => {
 						 value={count}
 						 className="appearance-none max-w-[50px] text-center custom-input py-1"
 						 onChange={(e) => changeSizeCount(size, parseInt(e.target.value))}/>
-			<button className=" w-[20px] text-[18px] rounded-br rounded-tr bg-secondary py-1"
+			<button className=" w-[20px] text-[18px] rounded-r bg-secondary py-1"
 							onClick={() => changeSizeCount(size, count+1)}>+</button>
 		</div>
 	);

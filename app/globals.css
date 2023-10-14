@@ -3,6 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+:root {
+    --primary-bg: #242526;
+    --secondary-bg: #fff;
+    --primary-text-color: #555;
+    --secondary-text-color: #cecece;
+    --border-radius: 8px;
+    --speed: 500ms;
+}
 * {
     box-sizing: border-box;
     padding: 0;
@@ -16,6 +25,7 @@ body {
     font-family: 'Ubuntu', sans-serif;
     font-size: 18px;
     height: 100vh;
+    line-height: 1.25rem;
 }
 
 a {
@@ -29,4 +39,37 @@ a {
     appearance: none;
     margin: 0;
 }
+
+
+.dropdown-menu::before{
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: 20px;
+    height: 20px;
+    width: 20px;
+    background: #ececec;
+    transform: rotate(45deg);
+}
+
+.size::before, .size::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.size::before {
+    transform: rotate(45deg);
+    left: 0;
+}
+
+.size::after {
+    transform: rotate(-45deg);
+    right: 0;
+}
+
 

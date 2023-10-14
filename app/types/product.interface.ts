@@ -41,6 +41,7 @@ export interface IBrandCategory {
 export interface IFindId {
 	id: number,
 	name: string
+	count?: number
 }
 
 export interface ICombinedData {
@@ -57,4 +58,9 @@ export interface IInitialProducts {
 		sizes: ISize[],
 		productDetail: IProduct | null,
 		isLoading: boolean
+}
+
+export interface IAllProducts {
+	isLoading: boolean,
+	data: IProductResponse[]
 }

@@ -54,7 +54,7 @@ const Page: NextPage = () => {
 	return (
 		<div className="relative flex items-center justify-center h-screen">
 			<Image src={'/images/bg.jpg'} alt={"Background image"} fill className="-z-10 opacity-60" priority/>
-			<form onSubmit={handleSubmit(onSubmit)} className="bg-bgColor w-1/3 mx-auto py-12 flex flex-col items-center justify-center rounded-[10px] shadow-[0px_0px_45px_0px_rgba(0,0,0,0.75)]">
+			<form onSubmit={handleSubmit(onSubmit)} className="bg-bgColor w-[500px] mx-auto py-12 flex flex-col items-center justify-center rounded-[10px] shadow-[0px_0px_45px_0px_rgba(0,0,0,0.75)]">
 				<h2 className="text-3xl text-center capitalize">Авторизація</h2>
 				<AuthInput properties={register('name')}
 									 labelText={"Ім'я:"}

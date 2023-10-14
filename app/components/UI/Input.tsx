@@ -16,7 +16,8 @@ const Input = ({title, value, type="text", setValue, className}: IProps) => {
 						 value={value}
 						 onChange={(e)=>setValue(e.target.value)}/>
 			<TiDeleteOutline onClick={()=>setValue(type === "number" ? 0 :"")} className="absolute top-2 right-4"/>
-			<label className="absolute duration-300 transform -translate-y-6 scale-75 pointer-events-none top-[5px] peer-focus:top-1.5  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+			{/*<label className="absolute duration-300 transform -translate-y-6 scale-75 pointer-events-none top-[5px] peer-focus:top-1.5  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">*/}
+			<label className="absolute  pointer-events-none -top-[20px]  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary">
 				{title}</label>
 		</div>
 	);

@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 import {Providers} from "@/app/store/Providers";
 import Header from "@/app/components/Header";
 import React from "react";
-import {QueryClient} from "@tanstack/query-core";
-import {QueryClientProvider} from "@tanstack/react-query";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'Summer Shop',
@@ -25,6 +25,7 @@ export default function RootLayout({
         </header>
       }
       {children}
+      <ToastContainer/>
     </Providers>
     </body>
     </html>

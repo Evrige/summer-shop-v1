@@ -3,6 +3,8 @@ const nextConfig = {
 	images: {
 		domains: ['localhost'],
 	},
+	skipTrailingSlashRedirect: true,
+	skipMiddlewareUrlNormalize: true
 }
 
 module.exports = nextConfig

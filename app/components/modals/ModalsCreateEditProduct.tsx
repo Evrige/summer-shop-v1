@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-	IFindId,
+	IFindId, IProduct,
 	ISize,
 } from "@/app/types/product.interface";
 import Select from "@/app/components/UI/Select";
@@ -9,46 +9,69 @@ import SizeList from "@/app/components/SizeList";
 import SelectFile from "@/app/components/UI/SelectFile";
 import {RxCross1} from "react-icons/rx";
 import {genders} from "@/app/constants/product.constants";
-import {ProductService} from "@/app/service/product.service";
-import {useActions} from "@/app/hooks/useActions";
-import {useProducts} from "@/app/hooks/useProducts";
-import {EnumModalTitle, resetModalData} from "@/app/constants/dashboard.constants";
+import {EnumModalTitle} from "@/app/constants/dashboard.constants";
+import {useSizes} from "@/app/hooks/productHooks/useSizes";
+import {useBrands} from "@/app/hooks/productHooks/useBrands";
+import {useCategory} from "@/app/hooks/productHooks/useCategory";
+import {useProductDetail} from "@/app/hooks/productHooks/useProductDetail";
+import {useCreateProduct, useEditProduct} from "@/app/hooks/productHooks/useAllProducts";
+import {errorNotify} from "@/app/utils/notification/errorNotify";
 interface IProps {
-	title: string
+	modalData: {
+		title: string
+		id: number
+	}
 	handleClose: () => void
 }
-const ModalsCreateEditProduct = ({title, handleClose}: IProps) => {
-	const actions = useActions()
-	const productsState = useProducts()
+const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
+	const sizes = useSizes()
+	const brands = useBrands()
+	const category = useCategory()
+	const createProduct = useCreateProduct()
+	const editProduct = useEditProduct()
 	const findId = (name:string, data:IFindId[]) => data && data.find(item => item.name === name)
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
-
-	const [productData, setProductData] = useState({
-		id: productsState.productDetail?.id,
-		name: productsState.productDetail?.name || " ",
-		photo: productsState.productDetail?.photo || "/images/noImage.png",
-		description: productsState.productDetail?.description || " ",
-		price: productsState.productDetail?.price || 0,
+	const [productData, setProductData] = useState<IProduct>({
+		id: 0,
+		name: "",
+		photo: "/images/noImage.png",
+		description: "",
+		price: 0,
 		brand: {
-			id: productsState.productDetail?.brand.id || -1,
-			name: productsState.productDetail?.brand.name || ""
+			id: -1,
+			name: ""
 		},
 		category: {
-			id: productsState.productDetail?.category.id || -1,
-			name: productsState.productDetail?.category.name || ""
+			id: -1,
+			name: ""
 		},
-		gender: productsState.productDetail?.gender || "MAN",
-		size: productsState.productDetail?.size || []
+		gender: "MAN",
+		size: []
 	})
+	function CreateProductComponent() {
+		const productDetail = useProductDetail(modalData.id);
+		useEffect(() => {
+			if (productDetail.data) {
+				setProductData(productDetail.data);
+			}
+		}, [productDetail.isLoading, productDetail.data]);
+	}
+	if (modalData.title === EnumModalTitle.Edit) CreateProductComponent()
 	useEffect(() => {
-		actions.getSizes()
-		actions.getBrands()
-		actions.getCategory()
-		if(productsState.productDetail !== null) { // @ts-ignore
-			setProductData(productsState.productDetail);
+		if (modalData.title === EnumModalTitle.Create){
+			setProductData({
+				...productData,
+				brand: {
+					id: brands?.data?.[0]?.id || -1,
+					name: brands?.data?.[0]?.name || "",
+				},
+				category: {
+					id: category?.data?.[0]?.id || -1,
+					name: category?.data?.[0]?.name || "",
+				},
+			});
 		}
-		if (EnumModalTitle.Create === title) setProductData(resetModalData);
-	}, [productsState.productDetail]);
+	}, [category.data, brands.data]);
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const file = e.target.files[0];
@@ -72,25 +95,33 @@ const ModalsCreateEditProduct = ({title, handleClose}: IProps) => {
 			setProductData({...productData, size: newSizeCount})
 		}
 	}
-	const handleSend = async () =>{
+	const validationForm = () => {
+		const validation = (!productData.name || !productData.description
+			|| productData.price === 0)
+		if (validation) errorNotify("Заповніть усі поля")
+		return !validation;
+	}
+	const handleSend = () =>{
+		if (!validationForm()) return
 		const formData = new FormData()
 		formData.append("file", selectedFile as File || new File([], 'empty.txt', { type: 'text/plain' }))
 		const jsonData = {...productData}
 		// @ts-ignore
 		delete jsonData.photo;
-		console.log(jsonData)
 		formData.append("json", JSON.stringify(jsonData))
-		if (title === EnumModalTitle.Create) await ProductService.createProduct(formData)
-		else await ProductService.updateProduct({formData, id: productData.id})
+		if (modalData.title === EnumModalTitle.Create) createProduct.mutate(formData)
+		// @ts-ignore
+		else editProduct.mutate({formData, id: productData.id})
 		handleClose()
 	}
+	if ( sizes.isLoading || brands.isLoading || category.isLoading) return "Loading"
 	return (
 		<div className="fixed inset-0 bg-bgColor bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
 				 onClick={()=> handleClose()}>
 			<div className="relative bg-bgColor p-2.5 rounded-xl" onClick={(event)=> {
 				event.stopPropagation()}}>
 				<div className="w-[90%] mx-auto">
-					<h2 className="text-center mb-6">{title}</h2>
+					<h2 className="text-center mb-6">{modalData.title}</h2>
 					<div className="max-w-[550px] flex flex-wrap">
 						<div className="w-full">
 							<Input className="w-2/3 mb-6 mr-2"
@@ -110,14 +141,14 @@ const ModalsCreateEditProduct = ({title, handleClose}: IProps) => {
 						<SelectFile handleFileChange={handleFileChange} image={productData.photo}/>
 						<div className="max-w-[550px] flex flex-wrap">
 							<Select className="mb-5 mr-6" isAddOther={true} title="Бренд"
-											options={productsState.brands.map(item => item.name)}
+											options={brands?.data?.map(item => item.name) || []}
 											selectOption={productData.brand.name}
-											setOptions={(newValue) => setProductData({ ...productData, brand: {id: findId(newValue, productsState.brands)?.id || -1, name: newValue}})}/>
+											setOptions={(newValue) => setProductData({ ...productData, brand: {id: findId(newValue, brands?.data || [])?.id || -1, name: newValue}})}/>
 							<Select className="mb-5 mr-6" isAddOther={true}
 											title="Категорія"
-											options={productsState.category.map(item => item.name)}
+											options={category?.data?.map(item => item.name) || []}
 											selectOption={productData.category.name}
-											setOptions={(newValue) => setProductData({ ...productData, category: {id: findId(newValue, productsState.category)?.id || -1, name: newValue} })}/>
+											setOptions={(newValue) => setProductData({ ...productData, category: {id: findId(newValue, category?.data || [])?.id || -1, name: newValue} })}/>
 							<Select className="mb-5 mr-6"
 											title="Стать"
 											options={genders}
@@ -125,7 +156,7 @@ const ModalsCreateEditProduct = ({title, handleClose}: IProps) => {
 											setOptions={(newValue) => setProductData({ ...productData, gender: newValue })}/>
 						</div>
 						<SizeList
-							sizes={productsState.sizes}
+							sizes={sizes?.data || []}
 							sizesCount={productData.size}
 							changeSizeCount={changeSizeCount}
 						/>
