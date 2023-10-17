@@ -10,9 +10,9 @@ export const ProductService = {
 				method: 'GET',
 			})
 	},
-	async getProductDetail(id:number){
+	async getProductDetail(id:number, userId: number){
 		return instance<IProduct>({
-				url: `${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/${id}`,
+				url: `${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/${id}?u=${userId}`,
 				method: 'GET',
 			})
 	},
@@ -70,5 +70,15 @@ export const ProductService = {
 				url: `${process.env.NEXT_PUBLIC_UPDATE_AND_DELETE_PRODUCT_URL}/${id}`,
 				method: 'DELETE',
 			})
+	},
+	async getTopProducts(id:number){
+		return axios.get<IProduct[]>(
+			`${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/r/${id}`,
+		)
+	},
+	async getHistoryProducts(id:number){
+		return axios.get<IProduct[]>(
+			`${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/h/${id}`,
+		)
 	},
 }

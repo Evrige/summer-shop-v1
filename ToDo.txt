@@ -1,0 +1,47 @@
+        На сервер
+        brand=[<indexes>]
+        category=[<indexes>]
+        size=[<indexes>]
+        price_min=<double>
+  []    price_max=<double>
+        gender= (MAN, WOMAN, CHILD)
+        search=text у себя
+        sort= (0, 1, 2)
+        0 - без
+        1 - убывание
+        2 - возрастание
+
+        Для клиента
+                brand=Nike,Puma
+                category=Шлепки, ...
+                size=S,XS,...
+                price_min=<double>
+          []    price_max=<double>
+                gender= (MAN, WOMAN, CHILD)
+                search=text У СЕБЯ
+                sort= (По рейтингу, По возрастания, По убыванию)
+                0 - По рейтингу
+                1 - По убыванию
+                2 - По возрастания
+
+[X] /api/v1/product/{id}?u={user_id}
+[X] /api/v1/product/r
+[X] /api/v1/product/h
+
+[X] Не аутинтефецированный, может получить доступ к:
+   Главная страница, а именно, все товары, фильтрация и детальное описание
+[X] Если неавторизированный, то u=-1
+[] Удалить токен для запроса getProducts getProductDetail
+
+[] Сделать валидацию формы админа
+
+[] Добавить модалки и сообщения
+
+[] Поменять SearchInput
+
+[] Реализация корзины
+
+[] Рефакторинг кода
+
+[] Loader
+

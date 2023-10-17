@@ -36,6 +36,7 @@ export interface ISize {
 export interface IBrandCategory {
 	id: number,
 	name: string,
+	count?: number
 }
 
 export interface IFindId {

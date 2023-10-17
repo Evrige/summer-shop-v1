@@ -1,10 +1,10 @@
 import {useQuery} from "@tanstack/react-query";
 import {ProductService} from "@/app/service/product.service";
 
-export const useProductDetail = (id:number, userId: number = -1) => {
+export const useUserHistory = (id:number) => {
 	const {isLoading, data} = useQuery(
-		["ProductDetail"],
-		() => ProductService.getProductDetail(id, userId),
+		["getHistoryProducts"],
+		() => ProductService.getHistoryProducts(id),
 		{
 			select: ({data})=> data
 		}

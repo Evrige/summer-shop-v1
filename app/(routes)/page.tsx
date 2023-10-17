@@ -7,20 +7,34 @@ import Pagination from "@/app/components/UI/Pagination";
 import {LuShoppingCart} from "react-icons/lu";
 import {toPrice} from "@/app/utils/toPrice";
 import {useRouter} from "next/navigation";
+import {useCategory} from "@/app/hooks/productHooks/useCategory";
+import {IBrandCategory} from "@/app/types/product.interface";
+import {findId} from "@/app/utils/findId";
 export default function Home() {
   const products = useAllProducts()
   const router = useRouter()
-
+  const categoryList = useCategory()
   const perPage = 24;
   const [firstIndex, setFirstIndex] = useState(0)
-
-  if (products.isLoading || !products.data) return "load"
-
+  const [categoryActive, setCategoryActive] = useState<IBrandCategory[]>([])
+  if (products.isLoading || !products.data || !categoryList.data) return "load"
+  const handleToggleCheckBox = (element:IBrandCategory, elementsList: IBrandCategory[]) =>{
+    const currentId = findId(element.name, elementsList)?.id || -1
+    currentId === -1 ?
+      setCategoryActive(prevState => [...prevState, element])
+      : setCategoryActive(prevState => prevState.filter(item => item.id !== currentId))
+  }
   const productsList = products.data.slice(firstIndex, firstIndex + perPage)
   return (
     <main className="container mt-2 flex ">
-      <aside className="w-1/5">
-        <div><h1 className="text-secondary">Тут типо фильтр</h1></div>
+      <aside className="w-1/4">
+          <div className="flex flex-col">
+            <h2 className="text-secondary">Категорія</h2>
+            {categoryList.data.map(category => <label key={category.id}>
+              <input type="checkbox" className="mr-1" onChange={()=> handleToggleCheckBox(category, categoryActive)}/>
+              {category.name}
+            </label>)}
+          </div>
       </aside>
       <section>
         {products.isLoading ? <div>Loading...</div> :
@@ -29,7 +43,7 @@ export default function Home() {
             <div className="grid grid-cols-1 xl:grid-cols-8 lg:grid-cols-4 gap-3">
               {productsList?.map((product) => (
                 <div key={product.id} className="p-2 shadow rounded-xl cursor-pointer flex flex-col"
-                     onClick={()=> router.push(`/${product.name.replace(" ", "_")}/${product.id}`)}>
+                     onClick={()=> router.push(`/${product.name.replace(" ", "-")}/${product.id}`)}>
                   <div className="flex-grow flex items-center">
                     <Image src={product.photo} alt={"Product_Image"} width={300} height={300} priority/>
                   </div>

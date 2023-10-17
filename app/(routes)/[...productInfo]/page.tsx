@@ -8,9 +8,11 @@ import {findId} from "@/app/utils/findId";
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from "react-icons/md";
 import {getGenderTitle} from "@/app/utils/getGenderTitle";
 import {EnumGender} from "@/app/types/product.interface";
+import {useAuth} from "@/app/hooks/useAuth";
 
 const Page = ({params}: {params: {productInfo: [string, string]}}) => {
-	const productDetail = useProductDetail(+params.productInfo[1])
+	const userId = useAuth()?.user?.id || -1
+	const productDetail = useProductDetail(+params.productInfo[1], +userId)
 	const sizes = useSizes()
 	const [selectSize, setSelectSize] = useState("")
 	const [selectCount, setSelectCount] = useState(1)

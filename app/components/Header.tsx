@@ -14,13 +14,11 @@ import DropDownMenuHeader from "@/app/components/UI/DropDownMenuHeader/DropDownM
 const Header:FC = () => {
 	const userData = useAuth()
 	const actions = useActions()
-	const router = useRouter()
 	const [open, setOpen] = useState(false)
 
 	useEffect(()=>{
-		if (Cookies.get(EnumSaveData.refresh)) actions.checkAuth()
-		else router.push("/login")
-	}, [actions, router, userData.isLogin])
+		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
+	}, [])
 
 	let menuRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {
