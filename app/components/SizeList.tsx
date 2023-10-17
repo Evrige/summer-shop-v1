@@ -1,13 +1,13 @@
 import SizeItem from "@/app/components/SizeItem";
-import {ISize} from "@/app/types/product.interface";
+import {IProductProperty} from "@/app/types/product.interface";
 
 interface IProps {
-	sizes: ISize[],
-	sizesCount: ISize[],
-	changeSizeCount: (size: ISize, newCount: number) => void
+	sizes: IProductProperty[],
+	sizesCount: IProductProperty[],
+	changeSizeCount: (size: IProductProperty, newCount: number) => void
 }
 const SizeList = ({ sizes, sizesCount, changeSizeCount }: IProps) => {
-	const findSizeCount = (sizeName:string, data: ISize[]) => data && data.find(item => item.name === sizeName)
+	const findSizeCount = (sizeName:string, data: IProductProperty[]) => data && data.find(item => item.name === sizeName)
 
 	return (
 		<div className="max-w-[550px]">

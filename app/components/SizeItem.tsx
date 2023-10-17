@@ -1,10 +1,10 @@
-import {ISize} from "@/app/types/product.interface";
+import {IProductProperty} from "@/app/types/product.interface";
 import React from "react";
 
 interface IProps {
-	size: ISize,
+	size: IProductProperty,
 	count: number,
-	changeSizeCount: (size: ISize, newCount: number) => void
+	changeSizeCount: (size: IProductProperty, newCount: number) => void
 }
 const SizeItem = ({ size, changeSizeCount, count }: IProps) => {
 	return (

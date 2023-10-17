@@ -1,5 +1,5 @@
 import instance from "@/app/api/api.interseptor";
-import {IBrandCategory, IProduct, IProductResponse, ISize} from "@/app/types/product.interface";
+import {IProductProperty, IProduct, IProductResponse, IProductProperty} from "@/app/types/product.interface";
 import {getAccessToken} from "@/app/service/auth/auth.helper";
 import axios from "axios";
 
@@ -17,19 +17,19 @@ export const ProductService = {
 			})
 	},
 	async getBrands(){
-		return instance<IBrandCategory[]>({
+		return instance<IProductProperty[]>({
 				url: process.env.NEXT_PUBLIC_GET_ALL_BRAND_URL,
 				method: 'GET',
 			})
 	},
 	async getCategory(){
-		return instance<IBrandCategory[]>({
+		return instance<IProductProperty[]>({
 				url: process.env.NEXT_PUBLIC_GET_ALL_CATEGORY_URL,
 				method: 'GET',
 			})
 	},
 	async getSizes(){
-		return instance<ISize[]>({
+		return instance<IProductProperty[]>({
 				url: process.env.NEXT_PUBLIC_GET_ALL_SIZE_URL,
 				method: 'GET',
 			})

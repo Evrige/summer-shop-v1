@@ -8,33 +8,21 @@ import {LuShoppingCart} from "react-icons/lu";
 import {toPrice} from "@/app/utils/toPrice";
 import {useRouter} from "next/navigation";
 import {useCategory} from "@/app/hooks/productHooks/useCategory";
-import {IBrandCategory} from "@/app/types/product.interface";
+import {IProductProperty} from "@/app/types/product.interface";
 import {findId} from "@/app/utils/findId";
+import Filter from "@/app/components/UI/FilterProduct/Filter";
 export default function Home() {
   const products = useAllProducts()
   const router = useRouter()
-  const categoryList = useCategory()
   const perPage = 24;
   const [firstIndex, setFirstIndex] = useState(0)
-  const [categoryActive, setCategoryActive] = useState<IBrandCategory[]>([])
-  if (products.isLoading || !products.data || !categoryList.data) return "load"
-  const handleToggleCheckBox = (element:IBrandCategory, elementsList: IBrandCategory[]) =>{
-    const currentId = findId(element.name, elementsList)?.id || -1
-    currentId === -1 ?
-      setCategoryActive(prevState => [...prevState, element])
-      : setCategoryActive(prevState => prevState.filter(item => item.id !== currentId))
-  }
+  if (products.isLoading || !products.data) return "load"
+
   const productsList = products.data.slice(firstIndex, firstIndex + perPage)
   return (
     <main className="container mt-2 flex ">
       <aside className="w-1/4">
-          <div className="flex flex-col">
-            <h2 className="text-secondary">Категорія</h2>
-            {categoryList.data.map(category => <label key={category.id}>
-              <input type="checkbox" className="mr-1" onChange={()=> handleToggleCheckBox(category, categoryActive)}/>
-              {category.name}
-            </label>)}
-          </div>
+         <Filter/>
       </aside>
       <section>
         {products.isLoading ? <div>Loading...</div> :

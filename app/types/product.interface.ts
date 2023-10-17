@@ -13,7 +13,7 @@ export interface IProduct {
 		name: string
 	},
 	gender: string,
-	size: ISize[]
+	size: IProductProperty[]
 }
 export interface IProductResponse {
 	id: number,
@@ -27,13 +27,8 @@ export enum EnumGender {
 	woman = "WOMAN",
 	child = "CHILD",
 }
-export interface ISize {
-	id: number,
-	name: string,
-	count?: number
-}
 
-export interface IBrandCategory {
+export interface IProductProperty {
 	id: number,
 	name: string,
 	count?: number

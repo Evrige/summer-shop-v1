@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
 	IFindId, IProduct,
-	ISize,
+	IProductProperty,
 } from "@/app/types/product.interface";
 import Select from "@/app/components/UI/Select";
 import Input from "@/app/components/UI/Input";
@@ -81,7 +81,7 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 			if (file) setProductData({...productData, photo: URL.createObjectURL(file)});
 		}
 	};
-	const changeSizeCount = (size: ISize, newCount: number) => {
+	const changeSizeCount = (size: IProductProperty, newCount: number) => {
 		if (newCount >= 0){
 			const newSizeCount = productData.size.map((item) => {
 				if (item.name === size.name) {
