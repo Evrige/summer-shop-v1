@@ -6,6 +6,8 @@ import {toPrice} from "@/app/utils/toPrice";
 import {useSizes} from "@/app/hooks/productHooks/useSizes";
 import {findId} from "@/app/utils/findId";
 import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from "react-icons/md";
+import {getGenderTitle} from "@/app/utils/getGenderTitle";
+import {EnumGender} from "@/app/types/product.interface";
 
 const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 	const productDetail = useProductDetail(+params.productInfo[1])
@@ -15,16 +17,20 @@ const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 	if (productDetail.isLoading || !productDetail?.data) return "Loading"
 	const product = productDetail.data
 	return (
-			<div className="container p-5 flex ">
+			<div className="container p-5 flex">
 				<Image src={product.photo || ""} className="rounded-[7px] shadow" alt={product.name} width={600} height={600}/>
-				<div className="p-5">
-					<div className="max-w-[350px] h-1/2">
-						<span className="text-3xl">{product.name}</span> <span className="text-textSecondary">{product.category.name}</span>
-						<p className="text-2xl text-textSecondary mt-1">{product.brand.name}</p>
-						<p className="text-3xl mt-1">{toPrice(product.price)}</p>
-						<p className="text-2xl mt-1">{product.description}</p>
+				<div className="p-5 max-w-full">
+					<div className="text-textSecondary">
+						<span>{getGenderTitle(product.gender as EnumGender)}</span>
+						<span> / </span>
+						<span>{product.category.name}</span>
 					</div>
 					<div>
+						<span className="text-3xl">{product.name}</span>
+						<p className="text-2xl text-textSecondary mt-1">{product.brand.name}</p>
+						<p className="text-3xl mt-1">{toPrice(product.price)}</p>
+					</div>
+					<div className="mt-5 h-20">
 						<p className="text-xl">Розміри:</p>
 						<div className="flex gap-2 m-2">
 							{sizes.data?.map(size =>
@@ -43,13 +49,15 @@ const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 					</div>
 					<div className="flex items-center text-2xl gap-3 mt-10">
 						<MdKeyboardArrowLeft className="cursor-pointer" onClick={()=> setSelectCount(prevState => prevState - 1)}/>
-						<input className="focus:outline-none w-[20px] text-center" value={selectCount} onChange={(e) => setSelectCount(+e.target.value)}/>
+						<input className="focus:outline-none w-[30px] text-center" value={selectCount} onChange={(e) => setSelectCount(+e.target.value)}/>
 						<MdKeyboardArrowRight className="cursor-pointer" onClick={()=> setSelectCount(prevState => prevState + 1)}/>
-					</div>
-					<div>
-						<button className="w-[200px] mt-10 text-[18px] rounded-[7px] bg-primary py-3">
+						<button className="w-[200px] text-[18px] rounded-[7px] bg-primary ml-4 py-1">
 							Замовити
 						</button>
+					</div>
+					<div className="mt-3 max-h-[200px] max-w-[550px] overflow-hidden">
+						<p className="text-xl">Детальна інформація:</p>
+						<p className=" text-[18px] leading-6">{product.description}</p>
 					</div>
 				</div>
 			</div>

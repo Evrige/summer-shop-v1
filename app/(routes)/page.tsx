@@ -28,14 +28,18 @@ export default function Home() {
             :
             <div className="grid grid-cols-1 xl:grid-cols-8 lg:grid-cols-4 gap-3">
               {productsList?.map((product) => (
-                <div key={product.id} className="p-2 shadow rounded-xl cursor-pointer"
+                <div key={product.id} className="p-2 shadow rounded-xl cursor-pointer flex flex-col"
                      onClick={()=> router.push(`/${product.name.replace(" ", "_")}/${product.id}`)}>
-                  <Image src={product.photo} alt={"Product_Image"} width={300} height={300} priority/>
-                  <p className="text-xl mt-1 overflow-hidden h-6">{product.name}</p>
-                  <p className="text-sm text-textSecondary">{product.brand}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xl overflow-hidden h-6">{toPrice(product.price)}</span>
-                    <LuShoppingCart className="text-secondary text-xl"/>
+                  <div className="flex-grow flex items-center">
+                    <Image src={product.photo} alt={"Product_Image"} width={300} height={300} priority/>
+                  </div>
+                  <div className="flex flex-col justify-end">
+                    <p className="text-[18px] mt-1 overflow-hidden h-10 line-clamp-2">{product.name}</p>
+                    <p className="text-xs text-textSecondary overflow-hidden h-4">{product.brand}</p>
+                    <div className="flex justify-between items-center mt-1">
+                      <span className="text-xl overflow-hidden h-6">{toPrice(product.price)}</span>
+                      <LuShoppingCart className="text-secondary text-xl"/>
+                    </div>
                   </div>
                 </div>
               ))}

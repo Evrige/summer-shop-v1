@@ -16,6 +16,7 @@ import {useCategory} from "@/app/hooks/productHooks/useCategory";
 import {useProductDetail} from "@/app/hooks/productHooks/useProductDetail";
 import {useCreateProduct, useEditProduct} from "@/app/hooks/productHooks/useAllProducts";
 import {errorNotify} from "@/app/utils/notification/errorNotify";
+import {TiDeleteOutline} from "react-icons/ti";
 interface IProps {
 	modalData: {
 		title: string
@@ -118,7 +119,7 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 	return (
 		<div className="fixed inset-0 bg-bgColor bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
 				 onClick={()=> handleClose()}>
-			<div className="relative bg-bgColor p-2.5 rounded-xl" onClick={(event)=> {
+			<div className="max-h-[90%] relative bg-bgColor p-2.5 rounded-xl" onClick={(event)=> {
 				event.stopPropagation()}}>
 				<div className="w-[90%] mx-auto">
 					<h2 className="text-center mb-6">{modalData.title}</h2>
@@ -128,10 +129,18 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 										 title="Назва"
 										 value={productData.name}
 										 setValue={(newValue) => setProductData({ ...productData, name: newValue })}/>
-							<Input className="w-2/3 mb-6 mr-2"
-										 title="Опис"
-										 value={productData.description}
-										 setValue={(newValue) => setProductData({ ...productData, description: newValue })}/>
+							<div className="flex relative rounded-full px-1 items-center justify-center">
+									<textarea cols={40} rows={5} className="w-full text-[20px] px-1.5 appearance-none custom-input bg-transparent border border-gray-300 rounded-md hover:border-gray-500 block  py-2.5 text-sm border-b-2 dark:focus:border-secondary focus:outline-none focus:ring-0 peer"
+									/>
+								{/*<label className="absolute duration-300 transform -translate-y-6 scale-75 pointer-events-none top-[5px] peer-focus:top-1.5  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">*/}
+								<label className="absolute  pointer-events-none -top-[20px]  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary">
+									Опис</label>
+							</div>
+
+							{/*<Input className="w-2/3 mb-6 mr-2"*/}
+							{/*			 title="Опис"*/}
+							{/*			 value={productData.description}*/}
+							{/*			 setValue={(newValue) => setProductData({ ...productData, description: newValue })}/>*/}
 							<Input className="w-[150px] mb-6 mr-2"
 										 title="Ціна"
 										 type="number"

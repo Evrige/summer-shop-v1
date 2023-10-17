@@ -43,24 +43,3 @@ export interface IFindId {
 	name: string
 	count?: number
 }
-
-export interface ICombinedData {
-	sizes: ISize[];
-	brands: IBrandCategory[];
-	category: IBrandCategory[];
-	products: IProductResponse[];
-}
-
-export interface IInitialProducts {
-		products: IProductResponse[],
-		brands: IBrandCategory[],
-		category: IBrandCategory[],
-		sizes: ISize[],
-		productDetail: IProduct | null,
-		isLoading: boolean
-}
-
-export interface IAllProducts {
-	isLoading: boolean,
-	data: IProductResponse[]
-}
