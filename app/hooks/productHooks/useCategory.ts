@@ -6,7 +6,8 @@ export const useCategory = () => {
 		["getCategory"],
 		() => ProductService.getCategory(),
 		{
-			select: ({data})=> data
+			select: ({data})=> data,
+			cacheTime: 1000
 		}
 	)
 	return {isLoading, data}

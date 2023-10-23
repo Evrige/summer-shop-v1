@@ -6,7 +6,8 @@ export const useBrands = () => {
 		["getBrands"],
 		() => ProductService.getBrands(),
 		{
-			select: ({data})=> data
+			select: ({data})=> data,
+			cacheTime: 1000
 		}
 	)
 	return {isLoading, data}

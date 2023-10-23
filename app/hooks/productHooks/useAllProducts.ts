@@ -9,6 +9,7 @@ export const useAllProducts = () => {
 		() => ProductService.getProducts(),
 		{
 			select: ({data})=> data,
+			staleTime: 10000
 		}
 	)
 	return {isLoading, data, refetch}

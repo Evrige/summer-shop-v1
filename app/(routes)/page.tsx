@@ -17,18 +17,18 @@ export default function Home() {
   const perPage = 24;
   const [firstIndex, setFirstIndex] = useState(0)
   if (products.isLoading || !products.data) return "load"
-
+  // const prices = products.data.map(product => product.price)
   const productsList = products.data.slice(firstIndex, firstIndex + perPage)
   return (
     <main className="container mt-2 flex ">
-      <aside className="w-1/4">
+      <aside className="w-1/3">
          <Filter/>
       </aside>
       <section>
         {products.isLoading ? <div>Loading...</div> :
           !products.data?.length ? <div className="text-center">Наразі не має товарів в наявності</div>
             :
-            <div className="grid grid-cols-1 xl:grid-cols-8 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 xl:grid-cols-7 lg:grid-cols-4 gap-3">
               {productsList?.map((product) => (
                 <div key={product.id} className="p-2 shadow rounded-xl cursor-pointer flex flex-col"
                      onClick={()=> router.push(`/${product.name.replace(" ", "-")}/${product.id}`)}>

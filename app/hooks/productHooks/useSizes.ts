@@ -6,7 +6,8 @@ export const useSizes = () => {
 		["getSizes"],
 		() => ProductService.getSizes(),
 		{
-			select: ({data})=> data
+			select: ({data})=> data,
+			cacheTime: 1000
 		}
 	)
 	return {isLoading, data}
