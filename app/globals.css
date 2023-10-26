@@ -102,5 +102,31 @@ input[type="range"]::-moz-range-thumb{
     -moz-appearance: none;
     box-shadow: 0 0 6px rgba(0,0,0,0.05);
 }
+.custom-radio:checked + .custom-radio-label::before {
+    background-color: #f45454;
+    border: 1px solid #f45454;
+}
+
+.custom-radio {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: inline-block;
+    position: relative;
+}
+
+.custom-radio-label::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.25em;
+    background-color: white;
+    border: 1px solid #919191;
+    border-radius: 50%;
+    position: relative;
+    top: 0.1em;
+}
+
 
 

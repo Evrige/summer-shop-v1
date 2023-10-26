@@ -1,52 +1,56 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
 interface IProps {
 	minPrice: number
 	maxPrice: number
-	inputRange: {
-		minValue: number,
+	price: {
+		minValue: number
 		maxValue: number
 	}
-	setInputRange: (obj: any) => void
+	setPrice: (e: any) => void
 }
-const PriceFilter = ({minPrice, maxPrice, inputRange, setInputRange}: IProps) => {
+const PriceFilter = ({minPrice, maxPrice, price, setPrice}: IProps) => {
+	const handleMinValue = (e:ChangeEvent<HTMLInputElement>) =>
+		setPrice({minValue: +e.target.value >= price.maxValue ? price.maxValue - 1 : +e.target.value, maxValue: price.maxValue})
+	const handleMaxValue = (e:ChangeEvent<HTMLInputElement>) =>
+		setPrice({maxValue: +e.target.value <= price.minValue ? price.minValue + 1 : +e.target.value, minValue: price.minValue})
 	return (
 		<div>
-			<div  className="flex justify-between">
+			<div  className="flex justify-center">
 				<div>
 					<input type="number"
 								 className="w-[60px] p-1 custom-input focus:outline-none border rounded-[7px] text-center"
-								 value={inputRange.minValue}
-								 onChange={(e)=> setInputRange({...inputRange, minValue: +e.target.value >= inputRange.maxValue ? inputRange.maxValue - 1 : +e.target.value})}/>
+								 value={price.minValue}
+								 onChange={handleMinValue}/>
 					<span className="p-2">-</span>
 					<input type="number"
 								 className="w-[60px] p-1 custom-input focus:outline-none border rounded-[7px] text-center"
-								 value={inputRange.maxValue}
-								 onChange={(e)=> setInputRange({...inputRange, maxValue: +e.target.value >= inputRange.maxValue ? inputRange.maxValue - 1 : +e.target.value})}/>
+								 value={price.maxValue}
+								 onChange={handleMaxValue}/>
 				</div>
-				<button className="mr-2">OK</button>
+				<button className="ml-3 bg-primary px-2 py-1 rounded-[7px]">OK</button>
 			</div>
 			<div className="mt-3 mr-2">
 				<div className="relative bg-bgColor h-[5px] rounded-[5px]">
 					<div className="absolute h-[5px] rounded-[5px] bg-primary" style={{
-						left: `${Math.round((inputRange.minValue / maxPrice) * 100)}%`,
-						right: `${100 - Math.round((inputRange.maxValue / maxPrice) * 100)}%`}}></div>
+						left: `${Math.round((price.minValue / maxPrice) * 100)}%`,
+						right: `${100 - Math.round((price.maxValue / maxPrice) * 100)}%`}}></div>
 				</div>
 				<div className="relative range-input">
 					<input
 						type="range"
 						min={minPrice}
 						max={maxPrice}
-						value={inputRange.minValue >= inputRange.maxValue ? inputRange.maxValue - 1 : inputRange.minValue }
-						onChange={(e)=> setInputRange({...inputRange, minValue: +e.target.value >= inputRange.maxValue ? inputRange.maxValue - 1 : +e.target.value})}
+						value={price.minValue >= price.maxValue ? price.maxValue - 1 : price.minValue }
+						onChange={handleMinValue}
 						step={1}
 					/>
 					<input
 						type="range"
 						min={minPrice}
 						max={maxPrice}
-						value={inputRange.maxValue <= inputRange.minValue ? inputRange.minValue + 1 : inputRange.maxValue }
-						onChange={(e)=> setInputRange({...inputRange, maxValue: +e.target.value <= inputRange.minValue ? inputRange.minValue + 1 : +e.target.value})}
+						value={price.maxValue <= price.minValue ? price.minValue + 1 : price.maxValue }
+						onChange={handleMaxValue}
 						step={1}
 					/>
 				</div>

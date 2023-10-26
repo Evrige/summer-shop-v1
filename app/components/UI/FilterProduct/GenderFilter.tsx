@@ -11,8 +11,10 @@ const GenderFilter = ({title, setList}:IProps) => {
 		<div className="flex flex-col">
 			<h2 className="text-secondary mt-2">{title}</h2>
 			{genders.map(gender => <label key={gender} className="mt-1">
-				<input type="checkbox" className="mr-1" onClick={()=> setList(gender)}/>
-				{getGenderTitle(gender)}
+				<input type="radio" name="gender" className="custom-radio" onClick={()=> setList(gender)}/>
+				<span className="custom-radio-label">
+					{getGenderTitle(gender)}
+				</span>
 			</label>)}
 		</div>
 	);
