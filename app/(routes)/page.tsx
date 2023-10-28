@@ -2,27 +2,42 @@
 
 import Image from "next/image";
 import {useAllProducts} from "@/app/hooks/productHooks/useAllProducts";
-import React, {useState} from "react";
+import React, { useState} from "react";
 import Pagination from "@/app/components/UI/Pagination";
 import {LuShoppingCart} from "react-icons/lu";
 import {toPrice} from "@/app/utils/toPrice";
 import {useRouter} from "next/navigation";
-import {useCategory} from "@/app/hooks/productHooks/useCategory";
-import {IProductProperty} from "@/app/types/product.interface";
-import {findId} from "@/app/utils/findId";
-import Filter from "@/app/components/UI/FilterProduct/Filter";
+import Filter from "@/app/components/FilterProduct/Filter";
+import Loading from "@/app/(routes)/Loading";
+import {useParams} from "@/app/hooks/useParams";
+import {useMinMaxPrice} from "@/app/hooks/useMinMaxPrice";
+import {EnumParams} from "@/app/types/main.interface";
+import {getParamsTitle} from "@/app/utils/getParamsTitle";
 export default function Home() {
-  const products = useAllProducts()
-  const router = useRouter()
+  const products = useAllProducts();
+  const router = useRouter();
   const perPage = 24;
-  const [firstIndex, setFirstIndex] = useState(0)
-  if (products.isLoading || !products.data) return "load"
-  // const prices = products.data.map(product => product.price)
+  const [firstIndex, setFirstIndex] = useState(0);
+
+  const price = useMinMaxPrice()
+
+  const {paramsList, setParamsList} = useParams(price.minPrice, price.maxPrice)
+  const keys = Object.keys(paramsList);
+  keys.forEach((key) => {
+    const value = paramsList[key];
+
+    console.log(value)
+  });
+  if (products.isLoading || !products.data) return <Loading/>
   const productsList = products.data.slice(firstIndex, firstIndex + perPage)
+
   return (
     <main className="container mt-2 flex ">
+      <div>
+
+      </div>
       <aside className="w-1/3">
-         <Filter/>
+         <Filter paramsList={paramsList} setParamsList={setParamsList} minMaxPrice={price}/>
       </aside>
       <section>
         {products.isLoading ? <div>Loading...</div> :

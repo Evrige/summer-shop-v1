@@ -11,7 +11,7 @@ const FilterItem = ({title, list, setList}:IProps) => {
 		<div className="flex flex-col">
 			<h2 className="text-secondary mt-2">{title}</h2>
 			{!list ? "" : list.map(item => <label key={item.id} className="mt-1">
-				<input type="checkbox" className="mr-1" onChange={()=> setList(item)}/>
+				<input type="checkbox" className="mr-1 accent-primary" onChange={()=> setList(item)}/>
 				{item.name}
 			</label>)}
 		</div>
