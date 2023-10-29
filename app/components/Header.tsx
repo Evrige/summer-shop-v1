@@ -14,20 +14,21 @@ import DropDownMenuHeader from "@/app/components/UI/DropDownMenuHeader/DropDownM
 const Header:FC = () => {
 	const userData = useAuth()
 	const actions = useActions()
-	const [open, setOpen] = useState(false)
 
 	useEffect(()=>{
 		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
 	}, [])
 
+	const [open, setOpen] = useState(false)
 	let menuRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {
 		const handler = (e: MouseEvent) => {
-			if (menuRef?.current?.contains(e.target as Node)) setOpen(false);
+			if (!menuRef?.current?.contains(e.target as Node)) setOpen(false);
 		};
 		document.addEventListener("mousedown", handler);
-		document.removeEventListener("mousedown", handler);
-	}, []);
+
+		return () => document.removeEventListener("mousedown", handler);
+	});
 	return (
 		<div className="w-full z-10">
 			<div className="container mt-2.5 flex items-center justify-between">

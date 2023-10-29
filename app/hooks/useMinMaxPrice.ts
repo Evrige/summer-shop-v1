@@ -1,25 +1,31 @@
-import {useEffect, useState} from "react";
-import {IPriceState} from "@/app/types/main.interface";
-import {useAllProducts} from "@/app/hooks/productHooks/useAllProducts";
+import { useEffect, useState } from "react";
+import { EnumParams, IPriceState } from "@/app/types/main.interface";
+import { useAllProducts } from "@/app/hooks/productHooks/useAllProducts";
+import { useActions } from "@/app/hooks/useActions";
 
 export const useMinMaxPrice = () => {
-	const products = useAllProducts()
+	const products = useAllProducts();
+	const actions = useActions();
 	const [price, setPrice] = useState<IPriceState>({
-		minPrice: 0,
-		maxPrice: 0
+		minValue: -1,
+		maxValue: -1,
 	});
 
 	useEffect(() => {
 		if (!products.isLoading && products.data) {
-			const prices = products.data.map(product => product.price);
+			const prices = products.data.map((product) => product.price);
 			const newMinPrice = Math.min(...prices);
 			const newMaxPrice = Math.max(...prices);
 			setPrice({
-				minPrice: newMinPrice,
-				maxPrice: newMaxPrice
+				minValue: newMinPrice,
+				maxValue: newMaxPrice,
+			});
+			actions.updateFilter({
+				key: EnumParams.price,
+				item: { minValue: newMinPrice, maxValue: newMaxPrice },
 			});
 		}
 	}, [products.isLoading, products.data]);
 
-	return price
-}
+	return price;
+};

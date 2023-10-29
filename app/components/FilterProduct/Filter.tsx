@@ -1,61 +1,29 @@
 import React from 'react';
-import {IProductProperty} from "@/app/types/product.interface";
-import {findId} from "@/app/utils/findId";
 import {useCategory} from "@/app/hooks/productHooks/useCategory";
 import FilterItem from "@/app/components/FilterProduct/FilterItem";
 import {useBrands} from "@/app/hooks/productHooks/useBrands";
 import {useSizes} from "@/app/hooks/productHooks/useSizes";
-import {getGenderTitle} from "@/app/utils/getGenderTitle";
 import GenderFilter from "@/app/components/FilterProduct/GenderFilter";
 import PriceFilter from "@/app/components/FilterProduct/PriceFilter";
-import {EnumParams, IParams} from "@/app/types/main.interface";
+import {EnumParams} from "@/app/types/main.interface";
+import {useActions} from "@/app/hooks/useActions";
+import {getParamsTitle} from "@/app/utils/getParamsTitle";
+import {getGenderTitle} from "@/app/utils/getGenderTitle";
 
-interface IProps {
-	paramsList: IParams;
-	setParamsList: React.Dispatch<React.SetStateAction<IParams>>,
-	minMaxPrice: {
-		minPrice: number;
-		maxPrice: number;
-	}
-}
-
-const Filter = ({paramsList, setParamsList, minMaxPrice}: IProps) => {
+const Filter = () => {
 	const categoryList = useCategory()
 	const brandsList = useBrands()
 	const sizeList = useSizes()
+	const actions = useActions()
 
-	const handleToggleCheckBox = (element:IProductProperty, elementsList: string) =>{
-		const currentId = findId(element.name, paramsList[elementsList])?.id || -1
-
-		if(currentId === -1){
-			setParamsList(prevState => ({
-				...prevState,
-				[elementsList]: [...paramsList[elementsList], element]
-			}))
-		} else {
-			setParamsList(prevState => ({
-				...prevState,
-				[elementsList]: [...paramsList[elementsList].filter((item:IProductProperty) => item.id !== currentId)]
-			}));
-		}
-	}
 	return (
 		<div>
-			<PriceFilter minMaxPrice={minMaxPrice} currentPrice={{minPrice: paramsList.price.minValue, maxPrice: paramsList.price.maxValue}}
-									 setPrice={(price) => setParamsList(prevState => ({
-										 ...prevState,
-										 price: {
-											 minValue: price.minValue,
-											 maxValue: price.maxValue
-										 }
-									 }))}/>
-			<FilterItem title={"Категорія"} list={categoryList.data || []} setList={(item)=> handleToggleCheckBox(item, EnumParams.category)}/>
-			<FilterItem title={"Бренд"} list={brandsList.data || []} setList={(item)=> handleToggleCheckBox(item, EnumParams.brands)}/>
-			<FilterItem title={"Розміри"} list={sizeList.data || []} setList={(item)=> handleToggleCheckBox(item, EnumParams.size)}/>
-			<GenderFilter title={"Стать"}
-										setList={(genderName)=> setParamsList(prevState => ({
-											...prevState,
-											gender: getGenderTitle(genderName)}))}/>
+			<PriceFilter/>
+			<FilterItem title={EnumParams.category} list={categoryList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.category, item})}/>
+			<FilterItem title={EnumParams.brands} list={brandsList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.brands, item})}/>
+			<FilterItem title={EnumParams.size} list={sizeList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.size, item})}/>
+			<GenderFilter title={getParamsTitle(EnumParams.gender)}
+										setList={(genderName)=> actions.updateFilter({key: EnumParams.gender, item: getGenderTitle(genderName)})}/>
 		</div>
 	);
 };

@@ -6,6 +6,9 @@ const params = {
 	[EnumParams.size]: "Розміри",
 	[EnumParams.gender]: "Стать",
 	[EnumParams.price]: "Ціна",
+	[EnumParams.sort]: "Сортування",
+	[EnumParams.search]: "Пошук",
+
 }
 
 export const getParamsTitle = (param: EnumParams): string => params[param];

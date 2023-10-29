@@ -1,26 +1,37 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IParams} from "@/app/types/main.interface";
-const initialParamsList: IParams = {
+import {EnumParams, EnumSortTitle, IParams} from "@/app/types/main.interface";
+import {IProductProperty} from "@/app/types/product.interface";
+
+const initialState: IParams = {
 	category: [],
 	brands: [],
 	size: [],
 	gender: "",
-	price: { minValue: 0, maxValue: 0 },
+	price: {
+		minValue: 0,
+		maxValue: 0
+	},
+	sort: EnumSortTitle.new,
+	search: ""
 };
 export const filterSlice = createSlice({
 	name: 'filter',
-	initialState: {
-		paramsList: initialParamsList,
-	},
+	initialState,
 	reducers: {
 		updateFilter: (state, action) => {
-			const { key, item } = action.payload;
-			const filterList = state.paramsList[key];
+			if (action.payload === "clear") return  initialState
 
-			if (filterList.some((filterItem) => filterItem.id === item.id)) {
-				state.paramsList[key] = filterList.filter((filterItem) => filterItem.id !== item.id);
+			const { key, item } = action.payload;
+
+			if (!Array.isArray(state[key])) {
+				state[key] = item;
 			} else {
-				state.paramsList[key] = [...filterList, item];
+				const filterList = state[key];
+				if (filterList.some((filterItem:IProductProperty) => filterItem.id === item.id)) {
+					state[key] = filterList.filter((filterItem:IProductProperty) => filterItem.id !== item.id);
+				} else {
+					state[key] = [...filterList, item];
+				}
 			}
 		},
 	},

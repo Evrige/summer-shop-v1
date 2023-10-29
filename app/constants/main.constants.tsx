@@ -1,6 +1,7 @@
 import {ImProfile} from "react-icons/im";
 import {FiLogOut} from "react-icons/fi";
 import {MdLocalShipping} from "react-icons/md";
+import {EnumSortTitle} from "@/app/types/main.interface";
 export const dropDownMenuHeader = [
 	{
 		icon: <ImProfile className="mr-1.5"/>,
@@ -19,5 +20,15 @@ export const dropDownMenuHeader = [
 		type: "br"
 	},
 ]
-
+export const dropDownFilter = [
+	{
+		title: EnumSortTitle.new,
+	},
+	{
+		title: EnumSortTitle.cheap,
+	},
+	{
+		title: EnumSortTitle.expensive,
+	},
+]
 

@@ -1,7 +1,6 @@
-import {EnumSaveData, IInitialState} from "@/app/types/user.interface";
+import { IInitialState} from "@/app/types/user.interface";
 import {createSlice} from "@reduxjs/toolkit";
 import {checkAuth, login, logout, registration} from "@/app/store/user/user.actions";
-import {getStorageLocal} from "@/app/utils/local-storage";
 import {errorCatch} from "@/app/api/api.helper";
 
 const initialState: IInitialState = {

@@ -13,6 +13,8 @@ export enum EnumParams {
 	size = "size",
 	gender = "gender",
 	price = "price",
+	sort = "sort",
+	search = "search"
 }
 
 export interface IParams {
@@ -24,10 +26,18 @@ export interface IParams {
 	price: {
 		minValue: number,
 		maxValue: number,
-	}
+	},
+	sort: string,
+	search: string
 }
 
 export interface IPriceState {
-	minPrice: number;
-	maxPrice: number;
+	minValue: number;
+	maxValue: number;
+}
+
+export enum EnumSortTitle {
+	new = "Новинка",
+	cheap = "Від дешевих до дорогих",
+	expensive = "Від дорогих до дешевих"
 }
