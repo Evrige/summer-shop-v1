@@ -5,20 +5,24 @@ interface IProps {
 		minPrice: number
 		maxPrice: number
 	}
+	currentPrice: {
+		minPrice: number
+		maxPrice: number
+	}
 	setPrice: (e: any) => void
 }
 
-const PriceFilter = ({minMaxPrice, setPrice}: IProps) => {
+const PriceFilter = ({minMaxPrice, setPrice, currentPrice}: IProps) => {
 	const [value, setValue] = useState({
-		minValue: minMaxPrice.minPrice,
-		maxValue: minMaxPrice.maxPrice,
+		minValue: currentPrice.minPrice,
+		maxValue: currentPrice.maxPrice,
 	});
 	useEffect(() => {
 		setValue({
-			minValue: minMaxPrice.minPrice,
-			maxValue: minMaxPrice.maxPrice,
+			minValue: currentPrice.minPrice,
+			maxValue: currentPrice.maxPrice,
 		})
-	}, [minMaxPrice.minPrice, minMaxPrice.maxPrice]);
+	}, [currentPrice.minPrice, currentPrice.maxPrice]);
 	const handleMinValue = (e: ChangeEvent<HTMLInputElement>) =>
 		setValue({
 			minValue: +e.target.value >= value.maxValue ? value.maxValue - 1 : +e.target.value,

@@ -38,7 +38,7 @@ export const useParams = (minPrice:number, maxPrice:number) => {
 				paramsString.set(getParamsTitle(EnumParams.gender), params.gender);
 			}
 
-			if (params.price.minValue !== minPrice || params.price.maxValue !== maxPrice) {
+			if ((params.price.minValue !== minPrice || params.price.maxValue !== maxPrice) && params.price.minValue !== params.price.maxValue) {
 				paramsString.set(getParamsTitle(EnumParams.price), `${params.price.minValue}-${params.price.maxValue}`);
 			}
 

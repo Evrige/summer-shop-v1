@@ -41,7 +41,7 @@ const Filter = ({paramsList, setParamsList, minMaxPrice}: IProps) => {
 	}
 	return (
 		<div>
-			<PriceFilter minMaxPrice={minMaxPrice}
+			<PriceFilter minMaxPrice={minMaxPrice} currentPrice={{minPrice: paramsList.price.minValue, maxPrice: paramsList.price.maxValue}}
 									 setPrice={(price) => setParamsList(prevState => ({
 										 ...prevState,
 										 price: {
