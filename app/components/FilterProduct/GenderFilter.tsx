@@ -15,7 +15,7 @@ const GenderFilter = ({title, setList}:IProps) => {
 			{genders.map(gender => <label key={gender} className="mt-1">
 				<input type="radio" name="gender"
 							 className="custom-radio"
-							 checked={filterList.gender === getGenderTitle(gender)}
+							 checked={filterList.gender === gender}
 							 onChange={()=> setList(gender)}/>
 				<span className="custom-radio-label">
 					{getGenderTitle(gender)}

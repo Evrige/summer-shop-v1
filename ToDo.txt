@@ -3,9 +3,8 @@
         category=[<indexes>]
         size=[<indexes>]
         price_min=<double>
-  []    price_max=<double>
+  [X]    price_max=<double>
         gender= (MAN, WOMAN, CHILD)
-        search=text у себя
         sort= (0, 1, 2)
         0 - без
         1 - убывание
@@ -16,7 +15,7 @@
                 category=Шлепки, ...
                 size=S,XS,...
                 price_min=<double>
-          []    price_max=<double>
+          [X]    price_max=<double>
                 gender= (MAN, WOMAN, CHILD)
                 search=text У СЕБЯ
                 sort= (По рейтингу, По возрастания, По убыванию)
@@ -37,7 +36,7 @@
 
 [] Добавить модалки и сообщения
 
-[] Поменять SearchInput
+[] history hot section
 
 [] Реализация корзины
 
@@ -45,5 +44,5 @@
 
 [] Custom button
 
-[] Loader
+[Х] Loader
 

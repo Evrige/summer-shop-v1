@@ -3,18 +3,18 @@ import {ProductService} from "@/app/service/product.service";
 import {errorNotify} from "@/app/utils/notification/errorNotify";
 import {successNotify} from "@/app/utils/notification/successNotify";
 
-export const useAllProducts = () => {
-	const {isLoading, data, refetch} = useQuery(
-		["AllProducts"],
-		() => ProductService.getProducts(),
+export const useAllProducts = (params:string = "") => {
+	const { isLoading, data, refetch } = useQuery(
+		["AllProducts", params],
+		() => ProductService.getProducts(params),
 		{
-			select: ({data})=> data,
+			select: ({ data }) => data,
 			staleTime: 10000
 		}
-	)
-	return {isLoading, data, refetch}
-}
+	);
 
+	return { isLoading, data, refetch };
+};
 export const useDeleteProduct = () => {
 	const products = useAllProducts()
 	const {isLoading, mutate} = useMutation(

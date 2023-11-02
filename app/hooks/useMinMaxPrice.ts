@@ -24,6 +24,10 @@ export const useMinMaxPrice = () => {
 				key: EnumParams.price,
 				item: { minValue: newMinPrice, maxValue: newMaxPrice },
 			});
+			actions.updateFilter({
+				key: EnumParams.minMaxPrice,
+				item: { minValue: newMinPrice, maxValue: newMaxPrice },
+			});
 		}
 	}, [products.isLoading, products.data]);
 

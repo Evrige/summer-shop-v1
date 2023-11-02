@@ -6,7 +6,6 @@ import {EnumParams} from "@/app/types/main.interface";
 const PriceFilter = () => {
 	const filter = useFilter()
 	const actions = useActions()
-	const price = useMinMaxPrice()
 
 	const [value, setValue] = useState({
 		minValue: filter.price.minValue,
@@ -19,9 +18,9 @@ const PriceFilter = () => {
 		})
 	}, [filter.price]);
 	const handleMinValue = (e: ChangeEvent<HTMLInputElement>) =>{
-		if(+e.target.value < price.minValue) setValue({
+		if(+e.target.value < filter.minMaxPrice.minValue) setValue({
 			maxValue: value.maxValue,
-			minValue: price.minValue,
+			minValue: filter.minMaxPrice.minValue,
 		})
 		else setValue({
 			minValue: +e.target.value >= value.maxValue ? value.maxValue - 1 : +e.target.value,
@@ -29,8 +28,8 @@ const PriceFilter = () => {
 		});
 	}
 	const handleMaxValue = (e: ChangeEvent<HTMLInputElement>) =>{
-		if(+e.target.value > price.maxValue) setValue({
-			maxValue: price.maxValue,
+		if(+e.target.value > filter.minMaxPrice.maxValue) setValue({
+			maxValue: filter.minMaxPrice.maxValue,
 			minValue: value.minValue,
 		})
 		else setValue({
@@ -57,22 +56,22 @@ const PriceFilter = () => {
 			<div className="mt-3 mr-2">
 				<div className="relative bg-bgColor h-[5px] rounded-[5px]">
 					<div className="absolute h-[5px] rounded-[5px] bg-primary" style={{
-						left: `${Math.round((value.minValue / price.maxValue) * 100)}%`,
-						right: `${100 - Math.round((value.maxValue / price.maxValue) * 100)}%`}}></div>
+						left: `${Math.round((value.minValue / filter.minMaxPrice.maxValue) * 100)}%`,
+						right: `${100 - Math.round((value.maxValue / filter.minMaxPrice.maxValue) * 100)}%`}}></div>
 				</div>
 				<div className="relative range-input">
 					<input
 						type="range"
-						min={price.minValue}
-						max={price.maxValue}
+						min={filter.minMaxPrice.minValue}
+						max={filter.minMaxPrice.maxValue}
 						value={value.minValue >= value.maxValue ? value.maxValue - 1 : value.minValue }
 						onChange={handleMinValue}
 						step={1}
 					/>
 					<input
 						type="range"
-						min={price.minValue}
-						max={price.maxValue}
+						min={filter.minMaxPrice.minValue}
+						max={filter.minMaxPrice.maxValue}
 						value={value.maxValue <= value.minValue ? value.minValue + 1 : value.maxValue }
 						onChange={handleMaxValue}
 						step={1}

@@ -1,21 +1,22 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect} from "react";
 import {getParamsTitle} from "@/app/utils/getParamsTitle";
 import {EnumParams, EnumSortTitle, IParams} from "@/app/types/main.interface";
-import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {useFilter} from "@/app/hooks/useFilter";
-import {useMinMaxPrice} from "@/app/hooks/useMinMaxPrice";
+import {useServerParams} from "@/app/hooks/Params/useServerParams";
+import {getGenderTitle} from "@/app/utils/getGenderTitle";
+import {EnumGender} from "@/app/types/product.interface";
 
-export const useParams = () => {
+export const useUserParams = () => {
 	const pathname = usePathname()
 	const router = useRouter()
 	const filter = useFilter()
-	const price = useMinMaxPrice()
 
+	useServerParams()
 	useEffect(() => {
-		if (price.maxValue !== -1 && price.minValue !== -1)
+		if (filter.minMaxPrice.maxValue !== -1 && filter.minMaxPrice.minValue !== -1)
 			router.push(pathname + '?' + setParams(filter))
-	}, [filter, price.maxValue, price.minValue]);
-
+	}, [filter, filter.minMaxPrice.maxValue, filter.minMaxPrice.minValue]);
 	const setParams =
 		(params: IParams) => {
 			const paramsString = new URLSearchParams();
@@ -32,12 +33,12 @@ export const useParams = () => {
 			});
 			if(params.sort !== EnumSortTitle.new) paramsString.set(getParamsTitle(EnumParams.sort), params.sort);
 			if (params.gender) {
-				paramsString.set(getParamsTitle(EnumParams.gender), params.gender);
+				paramsString.set(getParamsTitle(EnumParams.gender), getGenderTitle(params.gender as EnumGender));
 			}
-			if ((params.price.minValue !== price.minValue || params.price.maxValue !== price.maxValue) && params.price.minValue !== params.price.maxValue) {
+			if ((params.price.minValue !== filter.minMaxPrice.minValue || params.price.maxValue !== filter.minMaxPrice.maxValue)
+				&& params.price.minValue !== params.price.maxValue) {
 				paramsString.set(getParamsTitle(EnumParams.price), `${params.price.minValue}-${params.price.maxValue}`);
 			}
-
 			return paramsString.toString().replace(/%2C/g, ",");
 		}
 }

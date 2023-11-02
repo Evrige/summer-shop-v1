@@ -20,10 +20,10 @@ const Filter = () => {
 		<div>
 			<PriceFilter/>
 			<FilterItem title={EnumParams.category} list={categoryList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.category, item})}/>
-			<FilterItem title={EnumParams.brands} list={brandsList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.brands, item})}/>
+			<FilterItem title={EnumParams.brand} list={brandsList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.brand, item})}/>
 			<FilterItem title={EnumParams.size} list={sizeList.data || []} setList={(item)=> actions.updateFilter({key: EnumParams.size, item})}/>
 			<GenderFilter title={getParamsTitle(EnumParams.gender)}
-										setList={(genderName)=> actions.updateFilter({key: EnumParams.gender, item: getGenderTitle(genderName)})}/>
+										setList={(genderName)=> actions.updateFilter({key: EnumParams.gender, item: genderName})}/>
 		</div>
 	);
 };

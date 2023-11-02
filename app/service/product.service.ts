@@ -1,12 +1,13 @@
 import instance from "@/app/api/api.interseptor";
-import {IProductProperty, IProduct, IProductResponse, IProductProperty} from "@/app/types/product.interface";
+import {IProductProperty, IProduct, IProductResponse} from "@/app/types/product.interface";
 import {getAccessToken} from "@/app/service/auth/auth.helper";
 import axios from "axios";
 
 export const ProductService = {
-	async getProducts(){
+	async getProducts(queryParams = ""){
+			const params = queryParams ? `/f?${queryParams}` : ""
 			return instance<IProductResponse[]>({
-				url: `${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}`,
+				url: `${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}${params}`,
 				method: 'GET',
 			})
 	},
@@ -34,7 +35,18 @@ export const ProductService = {
 				method: 'GET',
 			})
 	},
-
+	async getTopProducts(){
+		return instance<IProductResponse[]>({
+			url: `${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/r`,
+			method: 'GET',
+		})
+	},
+	async getHistoryProducts(){
+		return instance<IProductResponse[]>({
+			url:`${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/h`,
+			method: 'GET',
+		})
+	},
 	// ADMIN REQUESTS
 	async createProduct(formData: FormData){
 		const accessToken = getAccessToken()
@@ -70,15 +82,5 @@ export const ProductService = {
 				url: `${process.env.NEXT_PUBLIC_UPDATE_AND_DELETE_PRODUCT_URL}/${id}`,
 				method: 'DELETE',
 			})
-	},
-	async getTopProducts(id:number){
-		return axios.get<IProduct[]>(
-			`${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/r/${id}`,
-		)
-	},
-	async getHistoryProducts(id:number){
-		return axios.get<IProduct[]>(
-			`${process.env.NEXT_PUBLIC_SERVER_URL}${process.env.NEXT_PUBLIC_GET_ALL_PRODUCT_AND_DETAIL_URL}/h/${id}`,
-		)
 	},
 }

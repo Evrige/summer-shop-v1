@@ -9,10 +9,11 @@ export interface IDropMenuItem {
 
 export enum EnumParams {
 	category = "category",
-	brands = "brands",
+	brand = "brand",
 	size = "size",
 	gender = "gender",
 	price = "price",
+	minMaxPrice = "minMaxPrice",
 	sort = "sort",
 	search = "search"
 }
@@ -20,10 +21,14 @@ export enum EnumParams {
 export interface IParams {
 	[key: string]: any;
 	category: IProductProperty[],
-	brands: IProductProperty[],
+	brand: IProductProperty[],
 	size: IProductProperty[],
 	gender: string,
 	price: {
+		minValue: number,
+		maxValue: number,
+	},
+	minMaxPrice: {
 		minValue: number,
 		maxValue: number,
 	},
@@ -40,4 +45,9 @@ export enum EnumSortTitle {
 	new = "Новинка",
 	cheap = "Від дешевих до дорогих",
 	expensive = "Від дорогих до дешевих"
+}
+export enum EnumSortServerId {
+	"Новинка",
+	"Від дешевих до дорогих",
+	"Від дорогих до дешевих"
 }
