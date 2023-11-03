@@ -1,20 +1,47 @@
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {ProductService} from "@/app/service/product.service";
 import {errorNotify} from "@/app/utils/notification/errorNotify";
 import {successNotify} from "@/app/utils/notification/successNotify";
 
-export const useAllProducts = (params:string = "") => {
+export const useAllProducts = (params: string = "") => {
 	const { isLoading, data, refetch } = useQuery(
-		["AllProducts", params],
+		['AllProducts', params],
 		() => ProductService.getProducts(params),
 		{
 			select: ({ data }) => data,
-			staleTime: 10000
+			staleTime: 10000,
 		}
 	);
 
 	return { isLoading, data, refetch };
 };
+export const useAllProductsMutation = () => {
+	const queryClient = useQueryClient();
+
+	const allProductsMutation = useMutation(
+		(params) => ProductService.getProducts(params),
+		{
+			onMutate: (params) => {
+				const previousData = queryClient.getQueryData(['AllProducts']);
+				return { params, previousData };
+			},
+			onSettled: (result, error, context) => {
+				if (result) {
+					// Update the cache with the mutation result
+					queryClient.setQueryData(['AllProducts', context.params], result);
+				} else {
+					// In case of an error, revert to the previous data in the cache
+					queryClient.setQueryData(['AllProducts', context.params], context.previousData);
+				}
+				// Invalidate the 'AllProducts' query to trigger a re-fetch
+				queryClient.invalidateQueries(['AllProducts', context.params]);
+			},
+		}
+	);
+
+	return allProductsMutation;
+};
+
 export const useDeleteProduct = () => {
 	const products = useAllProducts()
 	const {isLoading, mutate} = useMutation(

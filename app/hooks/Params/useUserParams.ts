@@ -12,7 +12,6 @@ export const useUserParams = () => {
 	const router = useRouter()
 	const filter = useFilter()
 
-	useServerParams()
 	useEffect(() => {
 		if (filter.minMaxPrice.maxValue !== -1 && filter.minMaxPrice.minValue !== -1)
 			router.push(pathname + '?' + setParams(filter))
