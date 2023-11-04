@@ -4,7 +4,7 @@ import Loading from "@/app/(routes)/Loading";
 import {useAllProducts} from "@/app/hooks/productHooks/useAllProducts";
 import {useFilter} from "@/app/hooks/useFilter";
 import {EnumSortTitle} from "@/app/types/main.interface";
-import UserProductsItem from "@/app/components/productsList/UserProductsItem";
+import UserProductsItem from "@/app/components/products/UserProductsItem";
 import {useServerParams} from "@/app/hooks/Params/useServerParams";
 
 const UserProductsList = () => {
@@ -21,15 +21,15 @@ const UserProductsList = () => {
 
 	const productsList = sortedList?.slice(firstIndex, firstIndex + perPage)
 	return (
-		<div className="w-full">
+		<div>
 				{!productsList?.length ? <div className="text-center">Нічого не знайдено</div>
 					:
-					<>
-						<div className="grid grid-cols-1 xl:grid-cols-7 lg:grid-cols-4 gap-3">
+					<div className="flex justify-center flex-col">
+						<div className="flex flex-wrap gap-3">
 								{productsList?.map((product) => <UserProductsItem product={product} key={product.id}/>)}
 						</div>
 						<Pagination listLength={products?.data?.length || 0} perPage={perPage} setFirstIndex={setFirstIndex}/>
-					</>}
+					</div>}
 		</div>
 	);
 };

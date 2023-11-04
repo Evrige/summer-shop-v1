@@ -9,6 +9,7 @@ import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from "react-icons/md";
 import {getGenderTitle} from "@/app/utils/getGenderTitle";
 import {EnumGender} from "@/app/types/product.interface";
 import {useAuth} from "@/app/hooks/useAuth";
+import Loading from "@/app/(routes)/Loading";
 
 const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 	const userId = useAuth()?.user?.id || -1
@@ -16,11 +17,11 @@ const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 	const sizes = useSizes()
 	const [selectSize, setSelectSize] = useState("")
 	const [selectCount, setSelectCount] = useState(1)
-	if (productDetail.isLoading || !productDetail?.data) return "Loading"
+	if (productDetail.isLoading || !productDetail?.data) return <Loading/>
 	const product = productDetail.data
 	return (
 			<div className="container p-5 flex">
-				<Image src={product.photo || ""} className="rounded-[7px] shadow" alt={product.name} width={600} height={600}/>
+				<Image src={product.photo || ""} priority className="rounded-[7px] shadow" alt={product.name} width={600} height={600}/>
 				<div className="p-5 max-w-full">
 					<div className="text-textSecondary">
 						<span>{getGenderTitle(product.gender as EnumGender)}</span>

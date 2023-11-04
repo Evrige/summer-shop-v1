@@ -3,24 +3,26 @@ import React, {Suspense, useEffect} from "react";
 import Filter from "@/app/components/FilterProduct/Filter";
 import {useUserParams} from "@/app/hooks/Params/useUserParams";
 import ActiveFilter from "@/app/components/FilterProduct/ActiveFilter";
-import UserProductsList from "@/app/components/productsList/userProductsList";
+import UserProductsList from "@/app/components/products/userProductsList";
 import Loading from "@/app/(routes)/Loading";
 import {useAllProducts} from "@/app/hooks/productHooks/useAllProducts";
 import {useSearchParams} from "next/navigation";
 import {useUserHistory} from "@/app/hooks/productHooks/useUserHistory";
 import {useAuth} from "@/app/hooks/useAuth";
 import {useTopProducts} from "@/app/hooks/productHooks/useTopProducts";
-import UserProductsItem from "@/app/components/productsList/UserProductsItem";
+import UserProductsItem from "@/app/components/products/UserProductsItem";
 import {useServerParams} from "@/app/hooks/Params/useServerParams";
+import UserHistoryTopList from "@/app/components/products/UserHistoryTopList";
+import UserHistoryTopItem from "@/app/components/products/UserHistoryTopItem";
 export default function Home() {
   const params = useServerParams();
   const products = useAllProducts(params || "");
   const { user } = useAuth();
   useUserParams();
-
-  const searchParams = useSearchParams().size > 0;
   const userHistoryList = useUserHistory();
   const userTopProductList = useTopProducts();
+  const searchParams = useSearchParams().size > 0;
+
   useEffect(() => {
     if (products.isLoading) {
       document.body.style.overflow = "hidden";
@@ -40,28 +42,15 @@ export default function Home() {
     <main className="container mt-2 ">
       <ActiveFilter />
       <section className="flex">
-        <aside className="w-1/3 max-w-[230px]">
+        <aside className="2xl:min-w-[220px] mr-2 flex-none">
           <Filter />
         </aside>
-        <div>
-          {!searchParams && user && (
-            <div>
-              <h2 className="mt-1">Історія переглядів:</h2>
-              <div className="grid grid-cols-1 xl:grid-cols-7 lg:grid-cols-4 gap-3">
-                {userHistoryList?.data?.map((product) => (
-                  <UserProductsItem product={product} key={product.id} />
-                ))}
-              </div>
-              <h2 className="mt-1">Спеціяльно для вас:</h2>
-              <div className="grid grid-cols-1 xl:grid-cols-7 lg:grid-cols-4 gap-3">
-                {userTopProductList?.data?.map((product) => (
-                  <UserProductsItem product={product} key={product.id} />
-                ))}
-              </div>
-            </div>)
-          }
-          {!searchParams && user && <h2 className="mt-1">Перелік товарів:</h2>}
-          <UserProductsList />
+        <div className="flex-auto overflow-y-auto">
+          {!searchParams && user && <UserHistoryTopList/>}
+          <>
+            {!searchParams && user && <h2 className="mt-1">Перелік товарів:</h2>}
+            <UserProductsList/>
+          </>
         </div>
       </section>
     </main>
