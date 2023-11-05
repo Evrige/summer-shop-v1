@@ -13,8 +13,8 @@ const UserProductsItem = ({product}:IProps) => {
 	return (
 		<div className="p-2 shadow rounded-xl cursor-pointer flex flex-col w-[175px] h-[325px]"
 				 onClick={()=> router.push(`/${product.name.replace(" ", "-")}/${product.id}`)}>
-			<div className="flex-grow flex items-center">
-				<Image src={product.photo} alt={"Product_Image"} width={300} height={300} priority/>
+			<div className="flex-grow flex justify-center items-center">
+				<Image src={product.photo} alt={product.name} width={300} height={300} priority/>
 			</div>
 			<div className="flex flex-col justify-end">
 				<p className="text-[18px] mt-1 overflow-hidden h-10 line-clamp-2">{product.name}</p>

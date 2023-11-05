@@ -6,7 +6,8 @@ export const useTopProducts = () => {
 		["getTopProducts"],
 		() => ProductService.getTopProducts(),
 		{
-			select: ({data})=> data
+			select: ({data})=> data,
+			cacheTime: 10000
 		}
 	)
 	return {isLoading, data}
