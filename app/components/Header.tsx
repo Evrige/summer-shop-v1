@@ -11,9 +11,14 @@ import Cookies from "js-cookie";
 import {EnumSaveData} from "@/app/types/user.interface";
 import { dropDownMenuHeader} from "@/app/constants/main.constants";
 import DropDownMenuHeader from "@/app/components/UI/DropDownMenuHeader/DropDownMenuHeader";
+import ModalsCart from "@/app/components/modals/ModalsCart";
 const Header:FC = () => {
 	const userData = useAuth()
 	const actions = useActions()
+	const router = useRouter()
+
+	const [visible, setVisible] = useState(false);
+	const [modalData, setModalData] = useState({title: "", id: 0});
 
 	useEffect(()=>{
 		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
@@ -46,12 +51,14 @@ const Header:FC = () => {
 							</div>
 						</div>
 					</div>
-					<div className="flex items-center justify-center">
+					<div onClick={()=> userData.isLogin ? setVisible((prevState) => !prevState) : router.push("/login")}
+							 className="flex items-center justify-center cursor-pointer">
 						<FaCartShopping className="mr-1.5"/>
 						Кошик
 					</div>
 				</div>
 			</div>
+			{visible &&<ModalsCart handleClose={()=> setVisible((prevState) => !prevState)}/>}
 		</div>
 	);
 };

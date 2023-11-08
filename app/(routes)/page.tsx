@@ -1,12 +1,13 @@
 "use client"
-import React, { useEffect} from "react";
+import React from "react";
 import Filter from "@/app/components/FilterProduct/Filter";
 import {useUserParams} from "@/app/hooks/Params/useUserParams";
 import ActiveFilter from "@/app/components/FilterProduct/ActiveFilter";
 import {useSearchParams} from "next/navigation";
 import {useAuth} from "@/app/hooks/useAuth";
-import UserHistoryTopList from "@/app/components/products/HistoryTop/UserHistoryTopList";
 import UserProductsList from "@/app/components/products/UserProductsList";
+import UserHistoryList from "@/app/components/products/HistoryTop/UserHistoryList";
+import UserTopList from "@/app/components/products/HistoryTop/UserTopList";
 export default function Home() {
   const { user } = useAuth();
   useUserParams();
@@ -20,7 +21,12 @@ export default function Home() {
           <Filter />
         </aside>
         <div className="flex-auto overflow-y-auto">
-          {!searchParams && user && <UserHistoryTopList/>}
+          {!searchParams && user && (
+           <>
+             <UserHistoryList/>
+             <UserTopList/>
+           </>
+          )}
           <>
             {!searchParams && user && <h2 className="mt-2 text-xl font-semibold">Перелік товарів</h2>}
             <UserProductsList/>

@@ -33,9 +33,9 @@ const Products: NextPage = () => {
 				<aside className="2xl:min-w-[220px] mr-2 ">
 					<Filter />
 				</aside>
-				<AdminProductsList/>
+				<AdminProductsList setModalData={setModalData} setVisible={setVisible}/>
 			</div>
-			{visible &&<ModalsCreateEditProduct modalData={modalData} handleClose={()=> setVisible(!visible)}/>}
+			{visible &&<ModalsCreateEditProduct modalData={modalData} handleClose={()=> setVisible((prevState) => !prevState)}/>}
 		</div>
 	);
 };

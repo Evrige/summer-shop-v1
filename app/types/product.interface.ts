@@ -39,3 +39,18 @@ export interface IFindId {
 	name: string
 	count?: number
 }
+
+export interface IProductCart {
+	isLoading: boolean
+	products: IProductCartItem[]
+	quantity: number
+}
+export interface IProductCartItem {
+	id: number,
+	name: string,
+	photo: string,
+	brand: string,
+	price: number
+	size: string,
+	count: number
+}

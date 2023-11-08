@@ -43,7 +43,20 @@
 
 [] Рефакторинг кода
 
-[] Custom button
 
 [Х] Loader
 
+
+Корзина
+post /api/v1/cart
+{
+"product": id
+"count": number
+"size": id
+}
+
+get /api/v1/cart
+delete /api/v1/cart/id
+
+Покупка
+post /api/v1/cart/buy

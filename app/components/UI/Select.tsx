@@ -15,7 +15,7 @@ const Select = ({title, isAddOther = false, options, selectOption, className,  s
 			{!isNew ?
 				<div className="relative">
 					<select
-						className={`${className} w-[120px] text-[20px] px-1.5 appearance-none bg-white border border-gray-300 rounded-md hover:border-gray-500 block  py-2.5 text-sm bg-transparent  border-b-2  dark:focus:border-secondary focus:outline-none focus:ring-0 peer`}
+						className={`${className} w-[120px] text-[20px] px-1.5 appearance-none bg-bgColor border border-gray-300 rounded-md hover:border-gray-500 block  py-2.5 text-sm bg-transparent  border-b-2  dark:focus:border-secondary focus:outline-none focus:ring-0 peer`}
 						onChange={(e)=>{
 							if (e.target.value === "other") setIsNew(true)
 							setOptions(e.target.value)

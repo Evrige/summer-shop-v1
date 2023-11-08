@@ -9,7 +9,8 @@ const colors ={
     bgColor: '#ececec',
     gray: twColors.gray,
     blue: twColors.blue,
-    transparent: twColors.transparent
+    white: twColors.white,
+    transparent: twColors.transparent,
 }
 
 const config: Config = {

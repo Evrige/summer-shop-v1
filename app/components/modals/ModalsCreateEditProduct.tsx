@@ -6,9 +6,9 @@ import {
 import Select from "@/app/components/UI/Select";
 import Input from "@/app/components/UI/Input";
 import SizeList from "@/app/components/SizeList";
-import SelectFile from "@/app/components/UI/SelectFile";
+import SelectImage from "@/app/components/UI/SelectImage";
 import {RxCross1} from "react-icons/rx";
-import {genders} from "@/app/constants/product.constants";
+import {genders, resetModal} from "@/app/constants/product.constants";
 import {EnumModalTitle} from "@/app/constants/dashboard.constants";
 import {useSizes} from "@/app/hooks/productHooks/useSizes";
 import {useBrands} from "@/app/hooks/productHooks/useBrands";
@@ -17,6 +17,7 @@ import {useProductDetail} from "@/app/hooks/productHooks/useProductDetail";
 import {useCreateProduct, useEditProduct} from "@/app/hooks/productHooks/useAllProducts";
 import {errorNotify} from "@/app/utils/notification/errorNotify";
 import {TiDeleteOutline} from "react-icons/ti";
+import Loading from "@/app/(routes)/Loading";
 interface IProps {
 	modalData: {
 		title: string
@@ -32,23 +33,7 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 	const editProduct = useEditProduct()
 	const findId = (name:string, data:IFindId[]) => data && data.find(item => item.name === name)
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
-	const [productData, setProductData] = useState<IProduct>({
-		id: 0,
-		name: "",
-		photo: "/images/noImage.png",
-		description: "",
-		price: 0,
-		brand: {
-			id: -1,
-			name: ""
-		},
-		category: {
-			id: -1,
-			name: ""
-		},
-		gender: "MAN",
-		size: []
-	})
+	const [productData, setProductData] = useState<IProduct>({...resetModal})
 	function CreateProductComponent() {
 		const productDetail = useProductDetail(modalData.id);
 		useEffect(() => {
@@ -73,13 +58,10 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 			});
 		}
 	}, [category.data, brands.data]);
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.files) {
-			const file = e.target.files[0];
-			setSelectedFile(file);
-
-			if (file) setProductData({...productData, photo: URL.createObjectURL(file)});
-		}
+	const handleImageChange = (image: File | null) => {
+		setSelectedFile(image)
+		const imageData = image ? URL.createObjectURL(image) : "/images/noImage.png"
+		setProductData({...productData, photo: imageData})
 	};
 	const changeSizeCount = (size: IProductProperty, newCount: number) => {
 		if (newCount >= 0){
@@ -115,39 +97,27 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 		else editProduct.mutate({formData, id: productData.id})
 		handleClose()
 	}
-	if ( sizes.isLoading || brands.isLoading || category.isLoading) return "Loading"
+	if ( sizes.isLoading || brands.isLoading || category.isLoading) return <Loading/>
 	return (
 		<div className="fixed inset-0 bg-bgColor bg-opacity-30 backdrop-blur-sm flex items-center justify-center"
 				 onClick={()=> handleClose()}>
-			<div className="max-h-[90%] relative bg-bgColor p-2.5 rounded-xl" onClick={(event)=> {
+			<div className=" relative bg-bgColor p-2.5 rounded-xl" onClick={(event)=> {
 				event.stopPropagation()}}>
 				<div className="w-[90%] mx-auto">
 					<h2 className="text-center mb-6">{modalData.title}</h2>
 					<div className="max-w-[550px] flex flex-wrap">
 						<div className="w-full">
-							<Input className="w-2/3 mb-6 mr-2"
+							<Input className="mb-6"
 										 title="Назва"
 										 value={productData.name}
 										 setValue={(newValue) => setProductData({ ...productData, name: newValue })}/>
-							<div className="flex relative rounded-full px-1 items-center justify-center">
+							<div className="flex relative rounded-full items-center justify-center">
 									<textarea cols={40} rows={5} className="w-full text-[20px] px-1.5 appearance-none custom-input bg-transparent border border-gray-300 rounded-md hover:border-gray-500 block  py-2.5 text-sm border-b-2 dark:focus:border-secondary focus:outline-none focus:ring-0 peer"
-									/>
-								{/*<label className="absolute duration-300 transform -translate-y-6 scale-75 pointer-events-none top-[5px] peer-focus:top-1.5  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">*/}
-								<label className="absolute  pointer-events-none -top-[20px]  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary">
+									/><label className="absolute  pointer-events-none -top-[20px]  bg-bgColor px-1 origin-[0] left-3 peer-focus:text-secondary">
 									Опис</label>
 							</div>
-
-							{/*<Input className="w-2/3 mb-6 mr-2"*/}
-							{/*			 title="Опис"*/}
-							{/*			 value={productData.description}*/}
-							{/*			 setValue={(newValue) => setProductData({ ...productData, description: newValue })}/>*/}
-							<Input className="w-[150px] mb-6 mr-2"
-										 title="Ціна"
-										 type="number"
-										 value={productData.price}
-										 setValue={(newValue) => setProductData({ ...productData, price: +newValue })}/>
 						</div>
-						<SelectFile handleFileChange={handleFileChange} image={productData.photo}/>
+						<SelectImage setImage={(image) => handleImageChange(image)} image={productData.photo}/>
 						<div className="max-w-[550px] flex flex-wrap">
 							<Select className="mb-5 mr-6" isAddOther={true} title="Бренд"
 											options={brands?.data?.map(item => item.name) || []}
@@ -164,6 +134,11 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 											selectOption={productData.gender}
 											setOptions={(newValue) => setProductData({ ...productData, gender: newValue })}/>
 						</div>
+						<Input className="w-[150px] mb-6 mr-2"
+									 title="Ціна"
+									 type="number"
+									 value={productData.price}
+									 setValue={(newValue) => setProductData({ ...productData, price: +newValue })}/>
 						<SizeList
 							sizes={sizes?.data || []}
 							sizesCount={productData.size}
