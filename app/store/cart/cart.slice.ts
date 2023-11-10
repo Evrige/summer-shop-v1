@@ -5,23 +5,17 @@ import {addToCart, deleteFromCart, getCartProducts, sendPayment} from "@/app/sto
 const initialState : IProductCart = {
 	isLoading: false,
 	products: [],
-	quantity: 0
+	total: 0
 }
 const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		addToCart: (state, action) => {
-			state.products.push(action.payload);
-		},
-		removeFromCart: (state, action) => {
-			state.products = state.products.filter(item => item.id !== action.payload.id);
-		},
-		updateCartItemQuantity: (state, action) => {
-			const { id, count } = action.payload;
-			const item = state.products.find(item => item.id === id);
-			if (item) item.count = count;
-		},
+		setTotal: (state) => {
+			state.total = state.products.reduce((accumulator, product) => {
+				return accumulator + product.price * product.count;
+			}, 0);
+		}
 	},
 	extraReducers: (builder) => {
 		builder
@@ -31,27 +25,25 @@ const cartSlice = createSlice({
 			.addCase(getCartProducts.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.products = action.payload;
-				state.quantity = action.payload.length;
+				cartSlice.caseReducers.setTotal(state);
 			})
 			.addCase(getCartProducts.rejected, (state) => {
 				state.isLoading = false;
-				state.quantity = 0;
 				state.products = [];
 			})
 			.addCase(addToCart.fulfilled, (state, action) => {
 				const newItem = action.meta.arg;
-
+				cartSlice.caseReducers.setTotal(state);
 				state.products.push(newItem);
-				state.quantity += 1;
 			})
 			.addCase(deleteFromCart.fulfilled, (state, action) => {
 				const itemId = action.meta.arg;
 				state.products = state.products.filter((product) => product.id !== itemId);
-				state.quantity -= 1;
+				cartSlice.caseReducers.setTotal(state);
 			})
 			.addCase(sendPayment.fulfilled, (state) => {
 				state.products = [];
-				state.quantity = 0;
+				state.total = 0;
 			});
 	}
 });

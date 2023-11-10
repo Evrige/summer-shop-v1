@@ -43,7 +43,7 @@ export interface IFindId {
 export interface IProductCart {
 	isLoading: boolean
 	products: IProductCartItem[]
-	quantity: number
+	total: number
 }
 export interface IProductCartItem {
 	id: number,
