@@ -54,3 +54,11 @@ export interface IProductCartItem {
 	size: string,
 	count: number
 }
+export interface ICartAdd {
+	product: IProductCartItem,
+	request: {
+		product: number,
+		count: number,
+		size: number
+	}
+}

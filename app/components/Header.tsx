@@ -23,7 +23,6 @@ const Header:FC = () => {
 	useEffect(()=>{
 		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
 	}, [])
-
 	const [open, setOpen] = useState(false)
 	let menuRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {

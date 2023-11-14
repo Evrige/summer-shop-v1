@@ -4,6 +4,7 @@ import {toPrice} from "@/app/utils/toPrice";
 import {LuShoppingCart} from "react-icons/lu";
 import {IProductResponse} from "@/app/types/product.interface";
 import {useRouter} from "next/navigation";
+import {useActions} from "@/app/hooks/useActions";
 
 interface IProps {
 	product: IProductResponse

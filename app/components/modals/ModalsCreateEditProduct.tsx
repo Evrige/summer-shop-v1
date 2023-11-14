@@ -119,7 +119,9 @@ const ModalsCreateEditProduct = ({modalData, handleClose}: IProps) => {
 						</div>
 						<SelectImage setImage={(image) => handleImageChange(image)} image={productData.photo}/>
 						<div className="max-w-[550px] flex flex-wrap">
-							<Select className="mb-5 mr-6" isAddOther={true} title="Бренд"
+							<Select className="mb-5 mr-6"
+											isAddOther={true}
+											title="Бренд"
 											options={brands?.data?.map(item => item.name) || []}
 											selectOption={productData.brand.name}
 											setOptions={(newValue) => setProductData({ ...productData, brand: {id: findId(newValue, brands?.data || [])?.id || -1, name: newValue}})}/>

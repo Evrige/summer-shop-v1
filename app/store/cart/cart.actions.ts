@@ -1,38 +1,42 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {CartService} from "@/app/service/cart.service";
-import {IProductCartItem, IProductResponse} from "@/app/types/product.interface";
+import {ICartAdd} from "@/app/types/product.interface";
 
-export const getCartProducts = createAsyncThunk<IProductCartItem[]>(
+export const getCartProducts = createAsyncThunk(
 	'cart/getCart',
 	async (_, thunkApi) => {
 		try {
-			return await CartService.getCartProducts()
+			const response = await CartService.getCartProducts();
+			return response.data;
 		} catch (e) {
 			return thunkApi.rejectWithValue(e)
 		}
 	}
 )
-export const addToCart = createAsyncThunk<string, IProductCartItem>(
+export const addToCart = createAsyncThunk<string, ICartAdd>(
 	'cart/addToCart',
 	async (data, thunkApi) => {
 		try {
-			return await CartService.addToCart(data)
+			const response = await CartService.addToCart(data.request);
+			return response.data;
 		} catch (e) {
-			return thunkApi.rejectWithValue(e)
+			return thunkApi.rejectWithValue(e);
 		}
 	}
-)
+);
+
 export const deleteFromCart = createAsyncThunk<string, number>(
 	'cart/deleteFromCart',
 	async (id, thunkApi) => {
 		try {
-			return await CartService.deleteFromCart(id)
+			const response = await CartService.deleteFromCart(id);
+			return response.data;
 		} catch (e) {
 			return thunkApi.rejectWithValue(e)
 		}
 	}
 )
-export const sendPayment = createAsyncThunk<string>(
+export const sendPayment = createAsyncThunk(
 	'cart/sendPayment',
 	async (_, thunkApi) => {
 		try {

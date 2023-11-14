@@ -7,7 +7,7 @@ const initialState : IProductCart = {
 	products: [],
 	total: 0
 }
-const cartSlice = createSlice({
+export const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
@@ -15,7 +15,13 @@ const cartSlice = createSlice({
 			state.total = state.products.reduce((accumulator, product) => {
 				return accumulator + product.price * product.count;
 			}, 0);
-		}
+		},
+		setItemCount: (state, action) => {
+			state.products = state.products.map((product) =>
+				product.id === action.payload.id ? { ...product, count: Math.max(1, action.payload.count) } : product
+			)
+
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -34,7 +40,8 @@ const cartSlice = createSlice({
 			.addCase(addToCart.fulfilled, (state, action) => {
 				const newItem = action.meta.arg;
 				cartSlice.caseReducers.setTotal(state);
-				state.products.push(newItem);
+				state.products.push(newItem.product);
+				console.log(state.products)
 			})
 			.addCase(deleteFromCart.fulfilled, (state, action) => {
 				const itemId = action.meta.arg;
@@ -47,5 +54,4 @@ const cartSlice = createSlice({
 			});
 	}
 });
-
-export default cartSlice.reducer;
+export const { setTotal, setItemCount } = cartSlice.actions;
