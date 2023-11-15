@@ -11,7 +11,9 @@ const Logo = () => {
 					 alt={"Logo"}
 					 width={785/7}
 					 height={316/7}
-					 priority/>
+					 priority
+					 className="cursor-pointer"
+		/>
 	);
 };
 

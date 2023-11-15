@@ -14,7 +14,7 @@ export default function Home() {
   const searchParams = useSearchParams().size > 0;
 
   return (
-    <main className="container mt-2 ">
+    <div className="container mt-2">
       <ActiveFilter />
       <section className="flex">
         <aside className="2xl:min-w-[220px] mr-2 ">
@@ -33,7 +33,7 @@ export default function Home() {
           </>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
 

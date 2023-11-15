@@ -5,22 +5,28 @@ import {addToCart, deleteFromCart, getCartProducts, sendPayment} from "@/app/sto
 const initialState : IProductCart = {
 	isLoading: false,
 	products: [],
-	total: 0
+	total: 0,
+	quantity: 0
 }
 export const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		setTotal: (state) => {
+		setTotalAndQuantity: (state) => {
 			state.total = state.products.reduce((accumulator, product) => {
 				return accumulator + product.price * product.count;
 			}, 0);
+			state.quantity = state.products.length
 		},
 		setItemCount: (state, action) => {
 			state.products = state.products.map((product) =>
 				product.id === action.payload.id ? { ...product, count: Math.max(1, action.payload.count) } : product
 			)
-
+		},
+		setItemSize: (state, action) => {
+			state.products = state.products.map((product) =>
+				product.id === action.payload.id ? { ...product, count: Math.max(1, action.payload.count) } : product
+			)
 		},
 	},
 	extraReducers: (builder) => {
@@ -31,7 +37,7 @@ export const cartSlice = createSlice({
 			.addCase(getCartProducts.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.products = action.payload;
-				cartSlice.caseReducers.setTotal(state);
+				cartSlice.caseReducers.setTotalAndQuantity(state);
 			})
 			.addCase(getCartProducts.rejected, (state) => {
 				state.isLoading = false;
@@ -39,19 +45,19 @@ export const cartSlice = createSlice({
 			})
 			.addCase(addToCart.fulfilled, (state, action) => {
 				const newItem = action.meta.arg;
-				cartSlice.caseReducers.setTotal(state);
+				cartSlice.caseReducers.setTotalAndQuantity(state);
 				state.products.push(newItem.product);
-				console.log(state.products)
 			})
 			.addCase(deleteFromCart.fulfilled, (state, action) => {
 				const itemId = action.meta.arg;
 				state.products = state.products.filter((product) => product.id !== itemId);
-				cartSlice.caseReducers.setTotal(state);
+				cartSlice.caseReducers.setTotalAndQuantity(state);
 			})
 			.addCase(sendPayment.fulfilled, (state) => {
 				state.products = [];
 				state.total = 0;
+				state.quantity = 0;
 			});
 	}
 });
-export const { setTotal, setItemCount } = cartSlice.actions;
+export const { setTotalAndQuantity, setItemCount } = cartSlice.actions;

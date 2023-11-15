@@ -12,13 +12,13 @@ import {EnumSaveData} from "@/app/types/user.interface";
 import { dropDownMenuHeader} from "@/app/constants/main.constants";
 import DropDownMenuHeader from "@/app/components/UI/DropDownMenuHeader/DropDownMenuHeader";
 import ModalsCart from "@/app/components/modals/ModalsCart";
+import {useCart} from "@/app/hooks/useCart";
 const Header:FC = () => {
 	const userData = useAuth()
 	const actions = useActions()
 	const router = useRouter()
-
+	const cart = useCart()
 	const [visible, setVisible] = useState(false);
-	const [modalData, setModalData] = useState({title: "", id: 0});
 
 	useEffect(()=>{
 		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
@@ -42,7 +42,7 @@ const Header:FC = () => {
 					<div className="flex items-center mr-5 justify-center">
 						{userData?.user?.role === "ADMIN" && <Link href={"/dashboard"} className="mr-3 border border-secondary rounded-[5px] p-1.5">Адмін панель</Link>}
 						<div className="flex justify-center items-center relative">
-							<FaUser className="mr-1.5"/>
+							<FaUser className="mr-1.5 text-xl"/>
 							{!userData.isLogin ? <Link href={'/login'}>Авторизація</Link>
 								: <span onClick={()=> setOpen(!open)} className="cursor-pointer">Вітаю, {userData?.user?.username}</span>}
 							<div className={`${open ? 'flex' : 'hidden'} dropdown-menu absolute top-9 right-1 rounded-[7px] bg-bgColor p-3`}>
@@ -52,7 +52,13 @@ const Header:FC = () => {
 					</div>
 					<div onClick={()=> userData.isLogin ? setVisible((prevState) => !prevState) : router.push("/login")}
 							 className="flex items-center justify-center cursor-pointer">
-						<FaCartShopping className="mr-1.5"/>
+						<span className="relative">
+							<FaCartShopping className="mr-1.5 text-xl"/>
+							{cart.quantity > 0 &&
+								<span className="absolute flex items-center justify-center -top-2 right-0 text-[12px] border bg-secondary rounded-full w-[20px] h-[20px]">
+								{cart.quantity}
+							</span>}
+						</span>
 						Кошик
 					</div>
 				</div>

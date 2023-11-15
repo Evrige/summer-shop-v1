@@ -8,7 +8,7 @@ const Pagination = ({listLength, perPage, setFirstIndex}: IProps) => {
 	const [page, setPage]= useState(1)
 	const totalPages = Array.from({ length: Math.ceil(listLength / perPage) }, (_, index) => index + 1);
 	return (
-		<div className="flex mt-2 justify-center">
+		<div className="flex my-2 justify-center">
 			<button disabled={page === 1}
 							className={`${page === 1 ? "bg-bgColor" : ""} border border-b-blue-100 rounded-l p-1.5`}
 							onClick={()=> {

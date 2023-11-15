@@ -12,7 +12,7 @@ interface IProps {
 const UserProductsItem = ({product}:IProps) => {
 	const router = useRouter()
 	return (
-		<div className="p-2 shadow rounded-xl cursor-pointer flex flex-col w-[175px] h-[325px]"
+		<div className="p-2 shadow rounded-xl cursor-pointer flex flex-col w-[175px] min-h-[325px]"
 				 onClick={()=> router.push(`/${product.name.replace(" ", "-")}/${product.id}`)}>
 			<div className="flex-grow flex justify-center items-center">
 				<Image src={product.photo} alt={product.name} width={300} height={300} priority/>

@@ -7,8 +7,10 @@ const colors ={
     secondary: '#b55904',
     textSecondary: '#919191',
     bgColor: '#ececec',
+    bgFooter: '#303337',
     gray: twColors.gray,
     blue: twColors.blue,
+    purple: twColors.purple,
     white: twColors.white,
     transparent: twColors.transparent,
 }

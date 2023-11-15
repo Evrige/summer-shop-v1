@@ -5,6 +5,7 @@ import Header from "@/app/components/Header";
 import React from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: 'Summer Shop',
@@ -24,7 +25,12 @@ export default function RootLayout({
           <Header/>
         </header>
       }
-      {children}
+      <main className="min-h-screen">
+        {children}
+      </main>
+      <footer className="mt-auto">
+        <Footer/>
+      </footer>
       <ToastContainer/>
     </Providers>
     </body>

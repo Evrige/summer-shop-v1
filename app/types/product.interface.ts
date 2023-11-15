@@ -44,6 +44,7 @@ export interface IProductCart {
 	isLoading: boolean
 	products: IProductCartItem[]
 	total: number
+	quantity: number
 }
 export interface IProductCartItem {
 	id: number,
