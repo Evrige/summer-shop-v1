@@ -24,18 +24,18 @@ const SearchInput: React.FC = () => {
 	const debouncedUpdateFilter = debounce(action.updateFilter, 300);
 
 	useEffect(() => {
-		debouncedUpdateFilter({ key: EnumParams.search, item: searchTerm });
-	}, [searchTerm]);
+		debouncedUpdateFilter({ key: EnumParams.search, item: filterList.search });
+	}, [filterList.search]);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setSearchTerm(e.target.value);
+		action.updateFilter({key: EnumParams.search, item: e.target.value});
 	};
 
 	return (
 		<div className="flex bg-bgColor max-w-[400px] rounded-full h-8 px-5 items-center justify-center">
 			<input
 				placeholder="Запит..."
-				value={searchTerm}
+				value={filterList.search}
 				onChange={handleInputChange}
 				className="bg-transparent border-none h-full text-[1rem] w-full focus:outline-none"
 			/>

@@ -19,10 +19,12 @@ const Header:FC = () => {
 	const router = useRouter()
 	const cart = useCart()
 	const [visible, setVisible] = useState(false);
-
 	useEffect(()=>{
 		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
 	}, [])
+	useEffect(() => {
+		actions.getCartProducts()
+	}, [userData.isLogin]);
 	const [open, setOpen] = useState(false)
 	let menuRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {

@@ -42,6 +42,13 @@ const ActiveFilter = () => {
 													 }
 													 className={itemClassName}>
               {getGenderTitle(filterList[key] as EnumGender)}<RxCross2 className="ml-1"/></span>
+						else if (key === EnumParams.search && filterList[key])
+							return <span key={key}
+													 onClick={()=>
+														 actions.updateFilter({key, item: ""})
+													 }
+													 className={itemClassName}>
+              {filterList[key]}<RxCross2 className="ml-1"/></span>
 						else if (key === EnumParams.sort && filterList[key] && filterList[key] !== EnumSortTitle.new)
 							return <span key={key}
 													 onClick={()=>

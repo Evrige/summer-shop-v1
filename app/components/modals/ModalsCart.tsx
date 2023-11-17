@@ -4,7 +4,7 @@ import CartProductsItem from "@/app/components/products/CartProductsItem";
 import {useCart} from "@/app/hooks/useCart";
 import {useActions} from "@/app/hooks/useActions";
 import {toPrice} from "@/app/utils/toPrice";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 interface IProps {
 	handleClose: () => void
 }
@@ -19,6 +19,7 @@ const ModalsCart = ({handleClose}: IProps) => {
 	const handlePayment = () => {
 			if (cart.products.length > 0){
 				router.push("cart/payment")
+				handleClose()
 			}
 
 	}
@@ -35,7 +36,7 @@ const ModalsCart = ({handleClose}: IProps) => {
 				</div>
 				<div className="flex-auto overflow-y-auto">
 					{cart.products.length > 0 ?
-						cart.products.map((product) => <CartProductsItem key={product.id} product={product} handleCountChange={actions.setItemCount}/>)
+						cart.products.map((product) => <CartProductsItem key={product.id} product={product}/>)
 						: <div className="flex justify-center">Кошик порожній</div>
 					}
 				</div>

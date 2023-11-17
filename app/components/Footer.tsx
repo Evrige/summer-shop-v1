@@ -9,11 +9,11 @@ import {FaInstagram, FaTelegram, FaViber, FaXTwitter} from "react-icons/fa6";
 const Footer = () => {
 	return (
 		<div className="bg-bgFooter text-textSecondary pt-5 text-sm">
-			<div className="w-2/3 flex justify-center mx-auto">
-				<div className="flex-1 flex justify-center items-center">
+			<div className="w-2/3 flex flex-wrap justify-center mx-auto ">
+				<div className="flex-1 flex justify-center items-center min-w-[250px]">
 					<Logo/>
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 min-w-[250px]">
 					<h2 className="text-base text-secondary">Summer Shop</h2>
 					Магазин літньої моди пропонує найкращий вибір стильного одягу для спекотних днів. Дивіться наші нові колекції та тренди сезону.
 					<div className="flex gap-2 text-3xl mt-1.5">
@@ -22,7 +22,7 @@ const Footer = () => {
 						<FaCcPaypal/>
 					</div>
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 min-w-[250px]">
 					<h2 className="text-base text-secondary">Посилання:</h2>
 					<div className="flex flex-col gap-1">
 						<Link href="#">Про нас</Link>
@@ -31,7 +31,7 @@ const Footer = () => {
 						<Link href="#">Політика конфіденційності</Link>
 					</div>
 				</div>
-				<div className="flex-1">
+				<div className="flex-1 min-w-[250px]">
 					<h2 className="text-base text-secondary">Контактна інформація:</h2>
 					<div className="flex flex-col gap-1">
 						<Link href="tel:0567455596" className="flex items-center">

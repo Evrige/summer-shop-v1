@@ -30,12 +30,12 @@ const AdminProductsList = ({setModalData, setVisible}: IProps) => {
 	const productsList = sortedList?.slice(firstIndex, firstIndex + perPage)
 	return (
 		<div className="w-full">
-			{!products.data?.length ? <div className="text-center">Щось пішло не так )))</div>
+			{!sortedList?.length ? <div className="text-center">Щось пішло не так )))</div>
 					:<>
 						<div className="flex flex-wrap gap-3">
 							{productsList?.map(product => <AdminProductsItem key={product.id} product={product} setModalData={setModalData} setVisible={setVisible} deleteProduct={deleteProduct}/>)}
 						</div>
-						<Pagination listLength={products?.data?.length || 0} perPage={perPage} setFirstIndex={setFirstIndex}/>
+						<Pagination listLength={sortedList.length || 0} perPage={perPage} setFirstIndex={setFirstIndex}/>
 					</>}
 		</div>
 	);

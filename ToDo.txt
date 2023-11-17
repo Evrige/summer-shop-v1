@@ -61,4 +61,4 @@ delete /api/v1/cart/id
 post /api/v1/cart/buy
 
 
-[] Fix pagination
+[X] Fix pagination

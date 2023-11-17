@@ -22,13 +22,13 @@ const UserProductsList = () => {
 	const productsList = sortedList?.slice(firstIndex, firstIndex + perPage)
 	return (
 		<div>
-				{!productsList?.length ? <div className="text-center">Нічого не знайдено</div>
+				{!sortedList?.length ? <div className="text-center">Нічого не знайдено</div>
 					:
 					<div className="flex justify-center flex-col">
 						<div className="flex flex-wrap gap-3">
 								{productsList?.map((product) => <UserProductsItem product={product} key={product.id}/>)}
 						</div>
-						<Pagination listLength={products?.data?.length || 0} perPage={perPage} setFirstIndex={setFirstIndex}/>
+						<Pagination listLength={sortedList.length || 0} perPage={perPage} setFirstIndex={setFirstIndex}/>
 					</div>}
 		</div>
 	);

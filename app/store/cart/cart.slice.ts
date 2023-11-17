@@ -22,10 +22,11 @@ export const cartSlice = createSlice({
 			state.products = state.products.map((product) =>
 				product.id === action.payload.id ? { ...product, count: Math.max(1, action.payload.count) } : product
 			)
+			cartSlice.caseReducers.setTotalAndQuantity(state)
 		},
 		setItemSize: (state, action) => {
 			state.products = state.products.map((product) =>
-				product.id === action.payload.id ? { ...product, count: Math.max(1, action.payload.count) } : product
+				product.id === action.payload.id ? { ...product, size: action.payload.name} : product
 			)
 		},
 	},

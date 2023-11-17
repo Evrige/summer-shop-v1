@@ -3,7 +3,6 @@ import {getParamsTitle} from "@/app/utils/getParamsTitle";
 import {EnumParams, EnumSortTitle, IParams} from "@/app/types/main.interface";
 import {usePathname, useRouter} from "next/navigation";
 import {useFilter} from "@/app/hooks/useFilter";
-import {useServerParams} from "@/app/hooks/Params/useServerParams";
 import {getGenderTitle} from "@/app/utils/getGenderTitle";
 import {EnumGender} from "@/app/types/product.interface";
 
@@ -33,6 +32,9 @@ export const useUserParams = () => {
 			if(params.sort !== EnumSortTitle.new) paramsString.set(getParamsTitle(EnumParams.sort), params.sort);
 			if (params.gender) {
 				paramsString.set(getParamsTitle(EnumParams.gender), getGenderTitle(params.gender as EnumGender));
+			}
+			if (params.search) {
+				paramsString.set(getParamsTitle(EnumParams.search), params.search);
 			}
 			if ((params.price.minValue !== filter.minMaxPrice.minValue || params.price.maxValue !== filter.minMaxPrice.maxValue)
 				&& params.price.minValue !== params.price.maxValue) {
