@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: ['localhost'],
+		domains: ['summershop-production.up.railway.app','https://summer-shop-v1.vercel.app'],
 	},
 	skipTrailingSlashRedirect: true,
 	skipMiddlewareUrlNormalize: true
