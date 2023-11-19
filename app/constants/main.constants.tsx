@@ -32,3 +32,6 @@ export const dropDownFilter = [
 	},
 ]
 
+export const paymentMethod = ["Оплата зараз", "При отриманні"]
+export const paymentDelivery = ["Самовивіз з магазину", "Укр пошта", "Нова пошта", "Кур'єр"]
+

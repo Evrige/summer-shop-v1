@@ -8,7 +8,7 @@ import UserProductsItem from "@/app/components/products/UserProductsItem";
 import {useServerParams} from "@/app/hooks/Params/useServerParams";
 
 const UserProductsList = () => {
-	const perPage = 24;
+	const perPage = 28;
 	const [firstIndex, setFirstIndex] = useState(0);
 	const filterList = useFilter()
 

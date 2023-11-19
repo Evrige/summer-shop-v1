@@ -20,11 +20,9 @@ export default function RootLayout({
     <html lang="en">
     <body>
     <Providers>
-      {
-        <header>
-          <Header/>
-        </header>
-      }
+      <header>
+        <Header/>
+      </header>
       <main className="min-h-screen">
         {children}
       </main>
