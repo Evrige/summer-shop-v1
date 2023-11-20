@@ -5,7 +5,7 @@ import {useTopProducts} from "@/app/hooks/productHooks/useTopProducts";
 const UserTopList = () => {
 	const userTopProductList = useTopProducts();
 	return (
-		<UserHistoryTopItem productsList={userTopProductList.data || []} title="Спеціяльно для вас"/>
+		<UserHistoryTopItem productsList={userTopProductList.data || []} title="Спеціально для вас"/>
 	)
 };
 

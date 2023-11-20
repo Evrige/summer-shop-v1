@@ -7,25 +7,25 @@ import { useFilter } from "@/app/hooks/useFilter";
 const SearchInput: React.FC = () => {
 	const action = useActions();
 	const filterList = useFilter();
-	const [searchTerm, setSearchTerm] = useState<string>(filterList.search);
 
-	const debounce = (fn: Function, delay: number) => {
-		let timer: NodeJS.Timeout | null = null;
-		return (...args: any) => {
-			if (timer) {
-				clearTimeout(timer);
-			}
-			timer = setTimeout(() => {
-				fn(...args);
-			}, delay);
-		};
-	};
+	// const debounce = (fn: Function, delay: number) => {
+	// 	let timer: NodeJS.Timeout | null = null;
+	// 	return (...args: any) => {
+	// 		if (timer) {
+	// 			clearTimeout(timer);
+	// 		}
+	// 		timer = setTimeout(() => {
+	// 			console.log(...args)
+	// 			fn(...args);
+	// 		}, delay);
+	// 	};
+	// };
+	//
+	// const debouncedUpdateFilter = debounce(action.updateFilter, 300);
 
-	const debouncedUpdateFilter = debounce(action.updateFilter, 300);
-
-	useEffect(() => {
-		debouncedUpdateFilter({ key: EnumParams.search, item: filterList.search });
-	}, [filterList.search]);
+	// useEffect(() => {
+	// 	debouncedUpdateFilter({ key: EnumParams.search, item: filterList.search });
+	// }, [filterList.search]);
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		action.updateFilter({key: EnumParams.search, item: e.target.value});

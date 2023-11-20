@@ -14,12 +14,16 @@ import {useActions} from "@/app/hooks/useActions";
 import {act} from "react-dom/test-utils";
 import {errorNotify} from "@/app/utils/notification/errorNotify";
 import {log} from "util";
+import {successNotify} from "@/app/utils/notification/successNotify";
+import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 	const userId = useAuth()?.user?.id || -1
 	const productDetail = useProductDetail(+params.productInfo[1], +userId)
 	const sizes = useSizes()
 	const actions = useActions()
+	const router = useRouter()
 	const [selectSize, setSelectSize] = useState<IProductProperty | null>(null)
 	const [selectCount, setSelectCount] = useState(1)
 	if (productDetail.isLoading || !productDetail?.data) return <Loading/>
@@ -44,7 +48,11 @@ const Page = ({params}: {params: {productInfo: [string, string]}}) => {
 		if(userId === -1) {
 			errorNotify("Спочатку авторизуйтесь")
 		}
-		else if (selectSize !== null) actions.addToCart(data)
+		else if (selectSize !== null){
+			actions.addToCart(data)
+			successNotify("Товар додано до корзини")
+			router.push("/")
+		}
 		else errorNotify("Оберіть розмір")
 	}
 	return (
