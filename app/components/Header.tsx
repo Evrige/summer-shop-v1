@@ -42,7 +42,7 @@ const Header:FC = () => {
 				<SearchInput />
 				<div className="flex" ref={menuRef}>
 					<div className="flex items-center mr-5 justify-center">
-						{userData?.user?.role === "ADMIN" && <Link href={"/dashboard"} className="mr-3 border border-secondary rounded-[5px] p-1.5">Адмін панель</Link>}
+						{userData?.user?.role === "ADMIN" && <Link href={"/dashboard/products"} className="mr-3 border border-secondary rounded-[5px] p-1.5">Адмін панель</Link>}
 						<div className="flex justify-center items-center relative">
 							<FaUser className="mr-1.5 text-xl"/>
 							{!userData.isLogin ? <Link href={'/login'}>Авторизація</Link>
