@@ -51,5 +51,8 @@ export const userSlice = createSlice({
 				state.user = action.payload.user
 				state.isLogin = true
 			})
+			.addCase(checkAuth.rejected, (state) => {
+				state.isLogin = false
+			})
 	}
 })

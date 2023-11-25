@@ -6,6 +6,7 @@ import React from "react";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "@/app/components/Footer";
+import {useActions} from "@/app/hooks/useActions";
 
 export const metadata: Metadata = {
   title: 'Summer Shop',

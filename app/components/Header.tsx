@@ -1,5 +1,5 @@
 "use client"
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useMemo, useRef, useState} from 'react';
 import Logo from "@/app/components/Logo";
 import SearchInput from "@/app/components/UI/SearchInput";
 import {FaCartShopping, FaUser} from "react-icons/fa6";
@@ -19,12 +19,11 @@ const Header:FC = () => {
 	const router = useRouter()
 	const cart = useCart()
 	const [visible, setVisible] = useState(false);
+
 	useEffect(()=>{
-		Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
+			Cookies.get(EnumSaveData.refresh) && actions.checkAuth()
+			actions.getCartProducts()
 	}, [])
-	useEffect(() => {
-		actions.getCartProducts()
-	}, [userData.isLogin]);
 	const [open, setOpen] = useState(false)
 	let menuRef = useRef<HTMLDivElement | null>(null);
 	useEffect(() => {
